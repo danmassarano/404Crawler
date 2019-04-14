@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Net;
 
 namespace _404Crawler
@@ -7,6 +8,12 @@ namespace _404Crawler
     {
         public static void Main(string[] args)
         {
+            ArrayList pagesProcessed = new ArrayList();
+            ArrayList pagesToProcess = new ArrayList();
+            int totalPages = 0;
+            int pagesPassed = 0;
+            int pagesFailed = 0;
+
             //CreateWebHostBuilder(args).Build().Run();
             Console.WriteLine("Starting crawler...");
             /*

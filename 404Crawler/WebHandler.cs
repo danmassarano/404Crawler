@@ -7,6 +7,7 @@ namespace _404Crawler
         public HttpStatusCode GetHeader(string url)
         {
             //TODO: Add handling for null or empty url added
+            //TODO: Switch to async
             HttpStatusCode result = default(HttpStatusCode);
 
             var request = WebRequest.Create(url);
