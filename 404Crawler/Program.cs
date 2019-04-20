@@ -20,7 +20,12 @@ namespace _404Crawler
              * dotnet run MVCTestApp.csproj 
              * 
              * Now listening on: https://localhost:5001
-             * Now listening on: http://localhost:5000            
+             * Now listening on: http://localhost:5000      
+             *
+             * dotnet test
+             *
+             * https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-test?tabs=netcore21
+             *
              */
 
             WebHandler handler = new WebHandler();
