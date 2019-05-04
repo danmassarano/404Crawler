@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Diagnostics;
 using System.Net;
 using _404Crawler;
@@ -21,6 +22,7 @@ namespace _404CrawlerTests
             cmd.StartInfo.UseShellExecute = false;
             cmd.Start();
 
+            // TODO: Change to extract path here to app.config file so it can be changed for different machines
             cmd.StandardInput.WriteLine("cd /Users/danielmassarano/Projects/MVCTestApp/MVCTestApp/");
             cmd.StandardInput.WriteLine("dotnet run MVCTestApp.csproj");
         }
@@ -53,6 +55,17 @@ namespace _404CrawlerTests
             HttpStatusCode header = handler.GetHeader(url);
 
             Assert.AreEqual(HttpStatusCode.NotFound, header);
+        }
+
+        [TestMethod]
+        public void ScrapeLinksReturnsCorrectNumber()
+        {
+            WebHandler handler = new WebHandler();
+            string url = "https://localhost:5001";
+
+            ArrayList result = handler.ScrapeLinks(url);
+
+            Assert.AreEqual(24, result.Count);
         }
     }
 }

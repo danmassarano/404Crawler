@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections;
+using System.Net;
+using HtmlAgilityPack;
 
 namespace _404Crawler
 {
@@ -23,12 +25,35 @@ namespace _404Crawler
                     }
                 }
             }
-            catch (WebException we)
+            catch (WebException e)
             {
-                result = ((HttpWebResponse)we.Response).StatusCode;
+                result = ((HttpWebResponse)e.Response).StatusCode;
             }
 
             return result;
         }
+
+        /// <summary>
+        /// Takes all links from an HTML web page and stores them in a list
+        /// </summary>
+        /// <returns>ArrayList of all links</returns>
+        /// <param name="url">URL of the web page</param>
+        public ArrayList ScrapeLinks(string url)
+        {
+            HtmlWeb site = new HtmlWeb();
+            ArrayList links = new ArrayList();
+
+            HtmlDocument page = site.Load(url);
+            foreach (HtmlNode link in page.DocumentNode.SelectNodes("//a[@href]"))
+            {
+                if (!links.Contains(link.Attributes["href"].Value))
+                {
+                    links.Add(link.Attributes["href"].Value);
+                }
+            }
+            return links;
+        }
+
+        // TODO: Create method that sorts list into links to just check header, and links to get full page
     }
 }

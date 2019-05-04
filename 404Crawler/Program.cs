@@ -37,10 +37,16 @@ namespace _404Crawler
             HttpStatusCode badHeader = handler.GetHeader("https://localhost:5001/badpage");
             Console.WriteLine(badHeader);
             Console.WriteLine("Stopping crawler...");
-        }
 
-        //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            pagesToProcess = handler.ScrapeLinks("https://localhost:5001");
+            foreach (var link in pagesToProcess)
+            {
+                Console.WriteLine(link);
+            }
+
+            //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             //WebHost.CreateDefaultBuilder(args)
-                //.UseStartup<Startup>();
+            //.UseStartup<Startup>();
+        }
     }
 }
