@@ -4,8 +4,17 @@ using HtmlAgilityPack;
 
 namespace _404Crawler
 {
+    /// <summary>
+    /// Web handler class is used to make any web requests used in the crawler
+    /// </summary>
     public class WebHandler
     {
+        /// <summary>
+        /// Checks returned header of a webpage for it's status code. 
+        /// Used to see if a webpage is working or not
+        /// </summary>
+        /// <returns>HTTP status code</returns>
+        /// <param name="url">URL</param>
         public HttpStatusCode GetHeader(string url)
         {
             //TODO: Add handling for null or empty url added
@@ -34,10 +43,10 @@ namespace _404Crawler
         }
 
         /// <summary>
-        /// Takes all links from an HTML web page and stores them in a list
+        /// Takes all URL's from an HTML web page and stores them in a list
         /// </summary>
         /// <returns>ArrayList of all links</returns>
-        /// <param name="url">URL of the web page</param>
+        /// <param name="url">URL</param>
         public ArrayList ScrapeLinks(string url)
         {
             HtmlWeb site = new HtmlWeb();
