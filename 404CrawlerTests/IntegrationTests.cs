@@ -6,11 +6,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace _404CrawlerTests
 {
+    /// <summary>
+    /// Integration tests for project.
+    /// Thses tests run against a generated web page, which first needs to be 
+    /// booted up in <code>TestInitialize</code>
+    /// </summary>
     [TestClass]
     public class IntegrationTests
     {
         Process cmd;
 
+        /// <summary>
+        /// Sets up environment for testing. A local webpage needs to booted up
+        /// to run integration tests against. 
+        /// </summary>
         [TestInitialize]
         public void TestInitialize()
         {
@@ -27,6 +36,9 @@ namespace _404CrawlerTests
             cmd.StandardInput.WriteLine("dotnet run MVCTestApp.csproj");
         }
 
+        /// <summary>
+        /// Tears down testing environment after testing is done. 
+        /// </summary>
         [TestCleanup]
         public void TestCleanup()
         {
@@ -35,6 +47,7 @@ namespace _404CrawlerTests
             cmd.WaitForExit();
         }
 
+        [TestCategory("GetHeader")]
         [TestMethod]
         public void GetHeaderReturnsOKForGoodLinkTest()
         {
@@ -46,6 +59,7 @@ namespace _404CrawlerTests
             Assert.AreEqual(HttpStatusCode.OK, header);
         }
 
+        [TestCategory("GetHeader")]
         [TestMethod]
         public void GetHeaderReturnsUnavailableForBadLinkTest()
         {
@@ -57,6 +71,7 @@ namespace _404CrawlerTests
             Assert.AreEqual(HttpStatusCode.NotFound, header);
         }
 
+        [TestCategory("ScrapeLinks")]
         [TestMethod]
         public void ScrapeLinksReturnsCorrectNumber()
         {
