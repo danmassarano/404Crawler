@@ -30,7 +30,7 @@ namespace _404CrawlerTests
             cmd.StartInfo.CreateNoWindow = false;
             cmd.StartInfo.UseShellExecute = false;
             cmd.Start();
-
+            // TODO: Add commands to kill processes running on needed ports
             // TODO: Change to extract path here to app.config file so it can be changed for different machines
             cmd.StandardInput.WriteLine("cd /Users/danielmassarano/Projects/MVCTestApp/MVCTestApp/");
             cmd.StandardInput.WriteLine("dotnet run MVCTestApp.csproj");
