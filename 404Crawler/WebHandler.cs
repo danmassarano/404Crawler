@@ -23,7 +23,6 @@ namespace _404Crawler
         /// <param name="url">URL</param>
         public HttpStatusCode GetHeader(string url)
         {
-            //TODO: Add handling for null or empty url added
             HttpStatusCode result = default(HttpStatusCode);
 
             var request = WebRequest.Create(url);
@@ -114,7 +113,6 @@ namespace _404Crawler
             foreach (var newLink in nextPage)
             {
                 pagesToProcess.Add(newLink);
-                Console.WriteLine($"{link.ToString()} : Added to list");
             }
 
             return pagesToProcess;

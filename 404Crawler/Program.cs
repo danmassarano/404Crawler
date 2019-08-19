@@ -11,16 +11,14 @@ namespace _404Crawler
     {
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
-        /// 
-        /// TODO: Add shell commands to kill background processes
+        ///
+        /// lsof -i :5001
+        /// kill -9 -> results
         /// dotnet run MVCTestApp.csproj
         /// 
         /// Now listening on: https://localhost:5001 
         /// Now listening on: http://localhost:5000
         /// 
-        /// dotnet test
-        /// 
-        /// https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-test?tabs=netcore21
         /// </summary>
         /// <param name="args">The command-line arguments.</param>
         public static void Main(string[] args)
@@ -34,53 +32,70 @@ namespace _404Crawler
             ArrayList NewPagesFound = new ArrayList();
 
             int numPagesPassed = 0;
+            string startPage;
 
-            string startPage = "https://localhost:5001";
-            handler.StartPage = startPage;
-
-            //CreateWebHostBuilder(args).Build().Run();
-            output.PrintHeader(startPage);
-            
-            pagesToProcess = handler.ScrapeLinks(startPage);
-            pagesToProcess = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
-
-            foreach (var link in pagesToProcess)
+            try
             {
-                Console.WriteLine($"Checking link: {link.ToString()}");
-
-                if (handler.IsInternalLinkWithDomain(link) && handler.PageExists(link))
+                if (args.Length > 1)
                 {
-                    NewPagesFound = handler.AddNewLinks(NewPagesFound, link);
-                    Console.WriteLine($"{link.ToString()} : Added to list");
-                    numPagesPassed++;
-                }
-                else if (handler.IsInternalLinkWithoutDomain(link))
-                {
-                    if (handler.PageExists(string.Concat(startPage, link)))
-                    {
-                        NewPagesFound = handler.AddNewLinks(NewPagesFound, string.Concat(startPage, link));
-                        Console.WriteLine($"{string.Concat(startPage, link)} : Added to list");
-                        numPagesPassed++;
-                    }
-                }
-                else if (handler.IsExternalLink(link) && handler.PageExists(link))
-                {
-                    numPagesPassed++;
+                    startPage = args[1];
+                    Console.WriteLine(args[1]);
                 }
                 else
                 {
-                    Console.WriteLine($"{link} : Page does not exist");
-                    pagesFailed.Add(link);
+                    //startPage = "https://localhost:5001";
+                    Console.Write("Enter URL of site to test: ");
+                    startPage = Console.ReadLine();
                 }
 
-                pagesProcessed.Add(link);
+                handler.StartPage = startPage;
+                output.PrintHeader(startPage);
+
+                pagesToProcess = handler.ScrapeLinks(startPage);
+                pagesToProcess = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
+
+                foreach (var link in pagesToProcess)
+                {
+                    Console.WriteLine($"Checking link: {link.ToString()}");
+
+                    if (handler.IsInternalLinkWithDomain(link) && handler.PageExists(link))
+                    {
+                        NewPagesFound = handler.AddNewLinks(NewPagesFound, link);
+                        numPagesPassed++;
+                    }
+                    else if (handler.IsInternalLinkWithoutDomain(link))
+                    {
+                        if (handler.PageExists(string.Concat(startPage, link)))
+                        {
+                            NewPagesFound = handler.AddNewLinks(NewPagesFound, string.Concat(startPage, link));
+                            numPagesPassed++;
+                        }
+                    }
+                    else if (handler.IsExternalLink(link) && handler.PageExists(link))
+                    {
+                        numPagesPassed++;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{link} : Page does not exist");
+                        pagesFailed.Add(link);
+                    }
+
+                    pagesProcessed.Add(link);
+                }
+
+                output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
+
+                pagesToProcess = handler.RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
+                output.PrintNewLinks(pagesToProcess);
+            }
+            catch (ArgumentNullException exception)
+            {
+                Console.WriteLine("Failed: No URL input");
+                Console.WriteLine(exception);
             }
 
-            output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
-
-            pagesToProcess = handler.RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
-            output.PrintNewLinks(pagesToProcess);
-
+            //CreateWebHostBuilder(args).Build().Run();
             //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             //WebHost.CreateDefaultBuilder(args)
             //.UseStartup<Startup>();
