@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections;
 
 namespace _404Crawler
 {
@@ -10,9 +10,20 @@ namespace _404Crawler
     public class Output
     {
         /// <summary>
+        /// Prints header for program: 
+        /// Shows the logo and the startpoint URL
+        /// </summary>
+        /// <param name="startPage"></param>
+        internal void PrintHeader(string startPage)
+        {
+            PrintLogo();
+            Console.WriteLine($"Starting crawler from {startPage}");
+        }
+
+        /// <summary>
         /// Prints the logo
         /// </summary>
-        public void PrintLogo()
+        internal void PrintLogo()
         {
             Console.WriteLine("     |" +
             	            "\n     |" +
@@ -30,7 +41,7 @@ namespace _404Crawler
         /// <summary>
         /// Prints the large varsion of the logo
         /// </summary>
-        public void PrintLargeLogo()
+        internal void PrintLargeLogo()
         {
             Console.WriteLine("lllloooooooooooooooooooooooooooddddddddddddddddddddddddddddddddddddddddddddddddd" +
             	            "\nllllllooooooooooooooooooooooooddddddddddddddddddddc;oddddddddddddddddddddddddddd" +
@@ -76,14 +87,36 @@ namespace _404Crawler
         }
 
         /// <summary>
-        /// Prints header for program: 
-        /// Shows the logo and the startpoint URL
+        /// Outputs all new links to process found
         /// </summary>
-        /// <param name="startPage"></param>
-        internal void PrintHeader(string startPage)
+        /// <param name="pagesToProcess"></param>
+        internal void PrintNewLinks(ArrayList pagesToProcess)
         {
-            PrintLogo();
-            Console.WriteLine($"Starting crawler from {startPage}");
+            Console.WriteLine($"Number of new pages to process : {pagesToProcess.Count}");
+            Console.WriteLine($"New links found:");
+
+            foreach (var link in pagesToProcess)
+            {
+                Console.WriteLine($"{link.ToString()}");
+            }
+        }
+
+        /// <summary>
+        /// Outputs results from crawl, how many pages passed and failed
+        /// </summary>
+        /// <param name="pagesProcessed"></param>
+        /// <param name="pagesFailed"></param>
+        /// <param name="numPagesPassed"></param>
+        internal void PrintResults(ArrayList pagesProcessed, ArrayList pagesFailed, int numPagesPassed)
+        {
+            Console.WriteLine($"Total pages processed: {pagesProcessed.Count}");
+            Console.WriteLine($"Total pages passed: {numPagesPassed}");
+            Console.WriteLine($"Total pages failed: {pagesFailed.Count}");
+
+            foreach (var link in pagesFailed)
+            {
+                Console.WriteLine($"{link.ToString()}");
+            }
         }
     }
 }

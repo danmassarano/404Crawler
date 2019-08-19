@@ -34,7 +34,6 @@ namespace _404Crawler
             ArrayList NewPagesFound = new ArrayList();
 
             int numPagesPassed = 0;
-            int numPagesFailed = 0;
 
             string startPage = "https://localhost:5001";
             handler.StartPage = startPage;
@@ -72,28 +71,15 @@ namespace _404Crawler
                 {
                     Console.WriteLine($"{link} : Page does not exist");
                     pagesFailed.Add(link);
-                    numPagesFailed++;
                 }
 
                 pagesProcessed.Add(link);
             }
 
-            // TODO: Refactor to an outputResults method
-            Console.WriteLine($"Total pages processed: {pagesProcessed.Count}");
-            Console.WriteLine($"Total pages passed: {numPagesPassed}");
-            Console.WriteLine($"Total pages failed: {numPagesFailed} : {pagesFailed.Count}");
-            foreach (var link in pagesFailed)
-            {
-                Console.WriteLine($"{link.ToString()}");
-            }
+            output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
 
             pagesToProcess = handler.RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
-            Console.WriteLine($"Number of new pages to process : {pagesToProcess.Count}");
-            Console.WriteLine($"New links found:");
-            foreach (var link in pagesToProcess)
-            {
-                Console.WriteLine($"{link.ToString()}");
-            }
+            output.PrintNewLinks(pagesToProcess);
 
             //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             //WebHost.CreateDefaultBuilder(args)
