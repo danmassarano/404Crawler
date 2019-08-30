@@ -11,6 +11,8 @@ namespace _404Crawler
     /// </summary>
     public class WebHandler
     {
+        // TODO should this be a static class? Might be easier to store arrays like that...
+
         public string StartPage { get; internal set; }
         internal readonly string externalSiteRegex = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
         internal readonly string internalSiteRegex = @"^\/{1}[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
@@ -106,7 +108,6 @@ namespace _404Crawler
         /// <returns>ArrayList upadted with new links</returns>
         public ArrayList AddNewLinks(ArrayList pagesToProcess, object link)
         {
-            //TODO: This seems to be printing out multiple statements per link - debug
             Console.WriteLine($"{link.ToString()} : OK");
             ArrayList nextPage = ScrapeLinks(link.ToString());
 

@@ -6,117 +6,149 @@ namespace _404Crawler
     /// <summary>
     /// Output class is used for any methods used to print things out into the
     /// console, and handles all formatting and logging.
-    /// </summary>
+    /// </summary>Prints header for program
     public class Output
     {
         /// <summary>
-        /// Prints header for program: 
-        /// Shows the logo and the startpoint URL
+        /// Prints header for program
         /// </summary>
         /// <param name="startPage"></param>
-        internal void PrintHeader(string startPage)
+        /// <exception cref="System.ArgumentNullException">Thrown when a null string is passwed as a URL</exception>
+        /// <returns>Header for program</returns>
+        public string PrintHeader(string startPage)
         {
-            PrintLogo();
-            Console.WriteLine($"Starting crawler from {startPage}");
+            if (string.IsNullOrEmpty(startPage))
+            {
+                throw new ArgumentNullException($"{nameof(startPage)} was not specified");
+            }
+
+            return $"Starting crawler from {startPage}";
         }
 
         /// <summary>
-        /// Prints the logo
+        /// String of the logo
         /// </summary>
-        internal void PrintLogo()
+        /// <returns>String of the logo</returns>
+        public string PrintLogo()
         {
-            Console.WriteLine("     |" +
-            	            "\n     |" +
-            	            "\n     |" +
-            	            "\n     |" +
-            	            "\n     |" +
-            	            "\n  /  |   \\" +
-            	            "\n ;_/,L-,\\_;" +
-            	            "\n\\._/3  E\\_./" +
-            	            "\n\\_./(::)\\._/" +
-            	            "\n     ''" +
-            	            "\n");
+            return "     |" +
+            	 "\n     |" +
+            	 "\n     |" +
+            	 "\n     |" +
+            	 "\n     |" +
+            	 "\n  /  |   \\" +
+            	 "\n ;_/,L-,\\_;" +
+            	 "\n\\._/3  E\\_./" +
+            	 "\n\\_./(::)\\._/" +
+            	 "\n     ''" +
+            	 "\n";
         }
 
         /// <summary>
-        /// Prints the large varsion of the logo
+        /// String of large version of the logo
         /// </summary>
-        internal void PrintLargeLogo()
+        /// <returns>String of large version of the logo</returns>
+        public string PrintLargeLogo()
         {
-            Console.WriteLine("lllloooooooooooooooooooooooooooddddddddddddddddddddddddddddddddddddddddddddddddd" +
-            	            "\nllllllooooooooooooooooooooooooddddddddddddddddddddc;oddddddddddddddddddddddddddd" +
-            	            "\nlllllloooooooooooooooooooddooddddddddddddddddddddd:'cddddddddddddddddddddddddddx" +
-            	            "\nllloooooooooooooooooooddo:;cdddddddddddddddddddddd:.:ddddddddddddddddddddddxxddd" +
-            	            "\nllllooooooooooooooooooo:',codddddddddodddddddddddd:.:dddddddddddddddxxxxdxxxxddx" +
-            	            "\nlllooooooooooooooooool,.;odddddddddddddddddddddddd;.:ddddddddddxxxxxxxxxxxxxxxxx" +
-            	            "\nllooooooooooooooooooc'.:oddddddddddddddddddddddddd,.cddddddxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooooooooooc..:oddddddddddddddddddddddddxl..cdddxxdxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nlooooooooooooooooo:..:odddddddddddddddddddddddddo, .cdddxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooooooooc. .lddddddddddddodddddddddddddl. .ldxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooooooooc. 'odddddddddddddddddddddddddd; .:ddddxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooooooooc. ;odddddddddddolllodddddddddo' ,odddxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooooooooc..:ddddddddolc,.....,ldddddddc..cddddxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooooooodc..:ddddddddc'        .':dddxo' 'oddxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooooooo; .:ddddddo:.           .:dxd:. ,dxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooooodo' .:dddddo:.             .lxo' .cdddxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooodddo, .:odddd:.              .:o'  ,dxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooodddd:.  .,coo;               .c:  .lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooddddddoc,.  ..'.               .'. .lxxdddddddddxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooddddl;,clc;'.                   .';::,'...'',;:lxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooddddl,...;looc::,.            .......,;;;:cloodxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooddddddoc;.....,;:c:.           .  .;odxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooddddddddddoc,......               ':odxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooddddddddddddddoool:.              ....',;codxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooddddddddolc;;;;'.                 ..    .'lxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooodddoc;'...    .               .   ..,,,'. .cdxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooooddc.    ......                 .'.   .;ll. .:dxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooddo' .';:;,..   .,,..,.         .;l:..  .''. .lxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooooddl. .c:.   ..':odo,.cl.         .,lo:,.   ....ldxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooddddo'      .,:loddddc..c,    ..':;';odxxoc,. ...'lxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooooddooo;.  .':oddddddddo:'';,. .;ldxddddxxxxxx:  .'..cxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooodddodc.  .cdddddddddddddoddolodxxxxxxxxxxxxxo. .c'  ;dxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooooddddc.   'ldddddddddxxdddddxxxxxxxxxxxxxxxxd:..co;..cxxxxxxxxxxxxxxxkx" +
-            	            "\nooooooooodddddl.   .cdddddddddddxxdxxxxxxxxxxxxxxxxxxdl. ;ddc.,dxxxxxxxxxxxxxxxx" +
-            	            "\nooooooooodddddo:.   ,odddddddxddxxxxxxxxxxxxxxxxxxxxxxd;..lxd;'lkxxxxxxxxxxxxxxx" +
-            	            "\nooooooooodddddddl;. .,:codddxxxddxxxxxxxxxxxxxxxxxxxxxd:. ;xkdldxxxxxxxxxxxxxxxx" +
-            	            "\nooooooodooddddddddc. .,;cdxdxxxxxxxxxxxxxxxxxxxxdlcllc;..'lxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooooddddddddddddo' .:odxdxxxxxxxxxxxxxxxxxxxxxdl::;::coxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooddddddddddddddo:'.';codxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\nooooodddddddddddddddddoc;,,,;:::oxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	            "\noooooooddddddddddddddddxxdolc:;:lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            return("lllloooooooooooooooooooooooooooddddddddddddddddddddddddddddddddddddddddddddddddd" +
+            	"\nllllllooooooooooooooooooooooooddddddddddddddddddddc;oddddddddddddddddddddddddddd" +
+            	"\nlllllloooooooooooooooooooddooddddddddddddddddddddd:'cddddddddddddddddddddddddddx" +
+            	"\nllloooooooooooooooooooddo:;cdddddddddddddddddddddd:.:ddddddddddddddddddddddxxddd" +
+            	"\nllllooooooooooooooooooo:',codddddddddodddddddddddd:.:dddddddddddddddxxxxdxxxxddx" +
+            	"\nlllooooooooooooooooool,.;odddddddddddddddddddddddd;.:ddddddddddxxxxxxxxxxxxxxxxx" +
+            	"\nllooooooooooooooooooc'.:oddddddddddddddddddddddddd,.cddddddxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooooooooooc..:oddddddddddddddddddddddddxl..cdddxxdxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nlooooooooooooooooo:..:odddddddddddddddddddddddddo, .cdddxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooooooooc. .lddddddddddddodddddddddddddl. .ldxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooooooooc. 'odddddddddddddddddddddddddd; .:ddddxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooooooooc. ;odddddddddddolllodddddddddo' ,odddxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooooooooc..:ddddddddolc,.....,ldddddddc..cddddxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooooooodc..:ddddddddc'        .':dddxo' 'oddxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooooooo; .:ddddddo:.           .:dxd:. ,dxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooooodo' .:dddddo:.             .lxo' .cdddxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooodddo, .:odddd:.              .:o'  ,dxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooodddd:.  .,coo;               .c:  .lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooddddddoc,.  ..'.               .'. .lxxdddddddddxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooddddl;,clc;'.                   .';::,'...'',;:lxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooddddl,...;looc::,.            .......,;;;:cloodxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooddddddoc;.....,;:c:.           .  .;odxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooddddddddddoc,......               ':odxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooddddddddddddddoool:.              ....',;codxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooddddddddolc;;;;'.                 ..    .'lxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooodddoc;'...    .               .   ..,,,'. .cdxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooooddc.    ......                 .'.   .;ll. .:dxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooddo' .';:;,..   .,,..,.         .;l:..  .''. .lxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooooddl. .c:.   ..':odo,.cl.         .,lo:,.   ....ldxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooddddo'      .,:loddddc..c,    ..':;';odxxoc,. ...'lxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooooddooo;.  .':oddddddddo:'';,. .;ldxddddxxxxxx:  .'..cxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooodddodc.  .cdddddddddddddoddolodxxxxxxxxxxxxxo. .c'  ;dxxxxxxxxxxxxxxxxx" +
+            	"\nooooooooooddddc.   'ldddddddddxxdddddxxxxxxxxxxxxxxxxd:..co;..cxxxxxxxxxxxxxxxkx" +
+            	"\nooooooooodddddl.   .cdddddddddddxxdxxxxxxxxxxxxxxxxxxdl. ;ddc.,dxxxxxxxxxxxxxxxx" +
+            	"\nooooooooodddddo:.   ,odddddddxddxxxxxxxxxxxxxxxxxxxxxxd;..lxd;'lkxxxxxxxxxxxxxxx" +
+            	"\nooooooooodddddddl;. .,:codddxxxddxxxxxxxxxxxxxxxxxxxxxd:. ;xkdldxxxxxxxxxxxxxxxx" +
+            	"\nooooooodooddddddddc. .,;cdxdxxxxxxxxxxxxxxxxxxxxdlcllc;..'lxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooooddddddddddddo' .:odxdxxxxxxxxxxxxxxxxxxxxxdl::;::coxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooddddddddddddddo:'.';codxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\nooooodddddddddddddddddoc;,,,;:::oxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
+            	"\noooooooddddddddddddddddxxdolc:;:lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         }
 
         /// <summary>
         /// Outputs all new links to process found
         /// </summary>
         /// <param name="pagesToProcess"></param>
-        internal void PrintNewLinks(ArrayList pagesToProcess)
+        /// <returns>A formatted string to print new links</returns>
+        public string PrintNewLinks(ArrayList pagesToProcess)
         {
-            Console.WriteLine($"Number of new pages to process : {pagesToProcess.Count}");
-            Console.WriteLine($"New links found:");
-
-            foreach (var link in pagesToProcess)
+            string result = "";
+            try
             {
-                Console.WriteLine($"{link.ToString()}");
+                result += $"Number of new pages to process : {pagesToProcess.Count}\n";
+
+                if (pagesToProcess.Count > 0)
+                {
+                    result += $"New links found:\n";
+
+                    foreach (var link in pagesToProcess)
+                    {
+                        result += $"{link.ToString()}\n";
+                    }
+                }
             }
+            catch (ArgumentNullException)
+            {
+                return "Number of new pages to process : 0\n";
+            }
+
+            return result;
         }
 
         /// <summary>
-        /// Outputs results from crawl, how many pages passed and failed
+        /// Builds string to print results from crawl.
+        /// Shows how many pages passed and failed
         /// </summary>
         /// <param name="pagesProcessed"></param>
         /// <param name="pagesFailed"></param>
         /// <param name="numPagesPassed"></param>
-        internal void PrintResults(ArrayList pagesProcessed, ArrayList pagesFailed, int numPagesPassed)
+        /// <returns>A formatted string to print results</returns>
+        public string PrintResults(ArrayList pagesProcessed, ArrayList pagesFailed, int numPagesPassed)
         {
-            Console.WriteLine($"Total pages processed: {pagesProcessed.Count}");
-            Console.WriteLine($"Total pages passed: {numPagesPassed}");
-            Console.WriteLine($"Total pages failed: {pagesFailed.Count}");
+            string result = "";
+            result += $"Total pages processed: {pagesProcessed.Count}\n";
+            result += $"Total pages passed: {numPagesPassed}\n";
+            result += $"Total pages failed: {pagesFailed.Count}\n";
 
-            foreach (var link in pagesFailed)
+            if (pagesFailed.Count > 0)
             {
-                Console.WriteLine($"{link.ToString()}");
+                result += "Pages failed:\n";
+
+                foreach (var link in pagesFailed)
+                {
+                    result += $"{link.ToString()}\n";
+                }
             }
+
+            return result;
         }
     }
 }

@@ -43,13 +43,14 @@ namespace _404Crawler
                 }
                 else
                 {
-                    //startPage = "https://localhost:5001";
-                    Console.Write("Enter URL of site to test: ");
-                    startPage = Console.ReadLine();
+                    startPage = "https://localhost:5001";
+                    //Console.Write("Enter URL of site to test: ");
+                    //startPage = Console.ReadLine();
                 }
 
                 handler.StartPage = startPage;
-                output.PrintHeader(startPage);
+                Console.WriteLine(output.PrintLargeLogo());
+                Console.WriteLine(output.PrintHeader(startPage));
 
                 pagesToProcess = handler.ScrapeLinks(startPage);
                 pagesToProcess = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
@@ -84,21 +85,18 @@ namespace _404Crawler
                     pagesProcessed.Add(link);
                 }
 
-                output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
+                Console.WriteLine(output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed));
 
                 pagesToProcess = handler.RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
-                output.PrintNewLinks(pagesToProcess);
+                Console.WriteLine(output.PrintNewLinks(pagesToProcess));
             }
             catch (ArgumentNullException exception)
             {
                 Console.WriteLine("Failed: No URL input");
                 Console.WriteLine(exception);
             }
-
-            //CreateWebHostBuilder(args).Build().Run();
-            //public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            //WebHost.CreateDefaultBuilder(args)
-            //.UseStartup<Startup>();
+            //TODO: What other exceptions are possible here?
+                //timeout, bad network, unhandled
         }
     }
 }

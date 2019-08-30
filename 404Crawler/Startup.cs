@@ -16,6 +16,7 @@ namespace _404Crawler
         /// <param name="services">Services</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            //TODO: What does this do? Remove? Test?
         }
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace _404Crawler
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            // TODO: Remove?
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
