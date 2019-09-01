@@ -95,8 +95,16 @@ namespace _404Crawler
                 Console.WriteLine("Failed: No URL input");
                 Console.WriteLine(exception);
             }
-            //TODO: What other exceptions are possible here?
-                //timeout, bad network, unhandled
+            catch (TimeoutException exception)
+            {
+                Console.WriteLine("Could not connect to target site");
+                Console.WriteLine(exception);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Something unexpected happened");
+                Console.WriteLine(exception);
+            }
         }
     }
 }

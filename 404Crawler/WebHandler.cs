@@ -40,9 +40,13 @@ namespace _404Crawler
                     }
                 }
             }
-            catch (WebException e)
+            catch (WebException exception)
             {
-                result = ((HttpWebResponse)e.Response).StatusCode;
+                result = ((HttpWebResponse)exception.Response).StatusCode;
+            }
+            catch (Exception)
+            {
+                result = HttpStatusCode.Ambiguous;
             }
 
             return result;
@@ -59,6 +63,10 @@ namespace _404Crawler
             ArrayList links = new ArrayList();
 
             HtmlDocument page = site.Load(url);
+            //if (page.DocumentNode.SelectNodes("//a[@href]") == null)
+            //{
+            //    return null;
+            //}
             foreach (HtmlNode link in page.DocumentNode.SelectNodes("//a[@href]"))
             {
                 if (!links.Contains(link.Attributes["href"].Value))
