@@ -49,7 +49,7 @@ namespace _404Crawler
         }
 
         /// <summary>
-        /// Takes all URL's from an HTML web page and stores them in a list
+        /// Takes all links from an HTML web page and stores them in a list
         /// </summary>
         /// <returns>ArrayList of all links</returns>
         /// <param name="url">URL</param>
@@ -105,7 +105,7 @@ namespace _404Crawler
         /// </summary>
         /// <param name="pagesToProcess">ArrayList containing all links being checked</param>
         /// <param name="link">URL of web page to check</param>
-        /// <returns>ArrayList upadted with new links</returns>
+        /// <returns>ArrayList updated with new links</returns>
         public ArrayList AddNewLinks(ArrayList pagesToProcess, object link)
         {
             Console.WriteLine($"{link.ToString()} : OK");
@@ -130,7 +130,7 @@ namespace _404Crawler
         }
 
         /// <summary>
-        /// Checks if a given link is internal or extarnal.
+        /// Checks if a given link is internal or external.
         /// This looks for links that start with the same domain as the original page checked
         /// </summary>
         /// <param name="link">URL of web page to check</param>

@@ -100,24 +100,18 @@ namespace _404Crawler
         /// <returns>A formatted string to print new links</returns>
         public string PrintNewLinks(ArrayList pagesToProcess)
         {
-            string result = "";
-            try
-            {
-                result += $"Number of new pages to process : {pagesToProcess.Count}\n";
-
-                if (pagesToProcess.Count > 0)
-                {
-                    result += $"New links found:\n";
-
-                    foreach (var link in pagesToProcess)
-                    {
-                        result += $"{link.ToString()}\n";
-                    }
-                }
-            }
-            catch (ArgumentNullException)
+            if (pagesToProcess == null || pagesToProcess.Count == 0)
             {
                 return "Number of new pages to process : 0\n";
+            }
+
+            string result = "";
+            result += $"Number of new pages to process : {pagesToProcess.Count}\n";
+            result += $"New links found:\n";
+
+            foreach (var link in pagesToProcess)
+            {
+                result += $"{link.ToString()}\n";
             }
 
             return result;
@@ -132,7 +126,12 @@ namespace _404Crawler
         /// <param name="numPagesPassed"></param>
         /// <returns>A formatted string to print results</returns>
         public string PrintResults(ArrayList pagesProcessed, ArrayList pagesFailed, int numPagesPassed)
-        {
+        {            
+            if (pagesProcessed == null || pagesProcessed.Count == 0)
+            {
+                return "There were no pages to process";
+            }
+
             string result = "";
             result += $"Total pages processed: {pagesProcessed.Count}\n";
             result += $"Total pages passed: {numPagesPassed}\n";

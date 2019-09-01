@@ -148,36 +148,6 @@ namespace _404CrawlerTests
         [TestMethod]
         public void PrintResultsWithNullFirstArrayTest()
         {
-            // pass null first array
-            // pass populated second array
-            // pass integer
-            // expect string result
-        }
-
-        [TestCategory("PrintResults")]
-        [TestMethod]
-        public void PrintResultsWithNullSecondArrayTest()
-        {
-            // pass populated first array
-            // pass null second array
-            // pass integer
-            // expect string result - just results
-        }
-
-        [TestCategory("PrintResults")]
-        [TestMethod]
-        public void PrintResultsWithPopulatedArraysAndNullNumberTest()
-        {
-            // pass populated first array
-            // pass populated second array
-            // pass null integer
-            // expect exception
-        }
-
-        [TestCategory("PrintResults")]
-        [TestMethod]
-        public void PrintResultsWithEmptyFirstArrayTest()
-        {
             // pass empty first array
             // pass populated second array
             // pass integer
@@ -186,7 +156,7 @@ namespace _404CrawlerTests
 
         [TestCategory("PrintResults")]
         [TestMethod]
-        public void PrintResultsWithEmptySecondArrayTest()
+        public void PrintResultsWithNullSecondArrayTest()
         {
             // pass populated first array
             // pass empty second array
