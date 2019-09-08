@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Diagnostics;
-using System.Net;
-using _404Crawler;
+﻿using _404Crawler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections;
 
 namespace _404CrawlerTests
 {
@@ -114,54 +112,133 @@ namespace _404CrawlerTests
         [TestMethod]
         public void PrintNewLinksWithPopulatedArrayTest()
         {
-            // pass array with links in
-            // expect string result
+            Output output = new Output();
+            ArrayList pages = new ArrayList
+            {
+                "https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409",
+                "https://go.microsoft.com/fwlink/?LinkID=398939"
+            };
+
+            string expected = "Number of new pages to process : 2\n" +
+                                "New links found:\n" +
+                                "https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409\n" +
+                                "https://go.microsoft.com/fwlink/?LinkID=398939\n";
+
+            string result = output.PrintNewLinks(pages);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestCategory("PrintNewLinks")]
         [TestMethod]
         public void PrintNewLinksWithEmptyArrayTest()
         {
-            // pass array with no links in
-            // expect string result with just results = 0
+            Output output = new Output();
+            ArrayList pages = new ArrayList();
+            string expected = "Number of new pages to process : 0\n";
+
+            string result = output.PrintNewLinks(pages);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestCategory("PrintNewLinks")]
         [TestMethod]
         public void PrintNewLinksWithNullArrayTest()
         {
-            // pass null array
-            // expect string result with just results = 0
+            Output output = new Output();
+            string expected = "Number of new pages to process : 0\n";
+
+            string result = output.PrintNewLinks(null);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestCategory("PrintResults")]
         [TestMethod]
         public void PrintResultsWithPopulatedArraysAndNumberTest()
         {
-            // pass populated first array
-            // pass populated second array
-            // pass integer
-            // expect string result
+            Output output = new Output();
+            ArrayList pagesProcessed = new ArrayList
+            {
+                "https://go.microsoft.com/fwlink/?LinkID=398939",
+                "https://go.microsoft.com/fwlink/?LinkID=398600",
+                "https://go.microsoft.com/fwlink/?LinkId=699315"
+            };
+            ArrayList pagesFailed = new ArrayList
+            {
+                "https://go.microsoft.com/fwlink/?LinkId=699315"
+            };
+            int numPagesPassed = 2;
+
+            string expected = "Total pages processed: 3\n" +
+                                "Total pages passed: 2\n" +
+                                "Total pages failed: 1\n" +
+                                "Pages failed:\n" +
+                                "https://go.microsoft.com/fwlink/?LinkId=699315\n";
+
+            string result = output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestCategory("PrintResults")]
         [TestMethod]
         public void PrintResultsWithNullFirstArrayTest()
         {
-            // pass empty first array
-            // pass populated second array
-            // pass integer
-            // expect string result
+            Output output = new Output();
+            ArrayList pagesFailed = new ArrayList
+            {
+                "https://go.microsoft.com/fwlink/?LinkId=699315"
+            };
+            int numPagesPassed = 2;
+
+            string expected = "There were no pages to process\n";
+
+            string result = output.PrintResults(null, pagesFailed, numPagesPassed);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestCategory("PrintResults")]
         [TestMethod]
-        public void PrintResultsWithNullSecondArrayTest()
+        public void PrintResultsWithEmptyFirstArrayTest()
         {
-            // pass populated first array
-            // pass empty second array
-            // pass integer
-            // expect string result - just results
+            Output output = new Output();
+            ArrayList pagesProcessed = new ArrayList();
+            ArrayList pagesFailed = new ArrayList
+            {
+                "https://go.microsoft.com/fwlink/?LinkId=699315"
+            };
+            int numPagesPassed = 2;
+
+            string expected = "There were no pages to process\n";
+
+            string result = output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestCategory("PrintResults")]
+        [TestMethod]
+        public void PrintResultsWithEmptySecondArrayTest()
+        {
+            Output output = new Output();
+            ArrayList pagesProcessed = new ArrayList
+            {
+                "https://go.microsoft.com/fwlink/?LinkID=398939",
+                "https://go.microsoft.com/fwlink/?LinkID=398600"
+            };
+            ArrayList pagesFailed = new ArrayList();
+            int numPagesPassed = 2;
+
+            string expected = "Total pages processed: 2\n" +
+                                "Total pages passed: 2\n" +
+                                "Total pages failed: 0\n";
+
+            string result = output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
+
+            Assert.AreEqual(expected, result);
         }
     }
 }

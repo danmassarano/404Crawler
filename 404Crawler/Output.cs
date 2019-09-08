@@ -50,7 +50,7 @@ namespace _404Crawler
         /// <returns>String of large version of the logo</returns>
         public string PrintLargeLogo()
         {
-            return("lllloooooooooooooooooooooooooooddddddddddddddddddddddddddddddddddddddddddddddddd" +
+            return "lllloooooooooooooooooooooooooooddddddddddddddddddddddddddddddddddddddddddddddddd" +
             	"\nllllllooooooooooooooooooooooooddddddddddddddddddddc;oddddddddddddddddddddddddddd" +
             	"\nlllllloooooooooooooooooooddooddddddddddddddddddddd:'cddddddddddddddddddddddddddx" +
             	"\nllloooooooooooooooooooddo:;cdddddddddddddddddddddd:.:ddddddddddddddddddddddxxddd" +
@@ -90,7 +90,7 @@ namespace _404Crawler
             	"\nooooooddddddddddddo' .:odxdxxxxxxxxxxxxxxxxxxxxxdl::;::coxxxxxxxxxxxxxxxxxxxxxxx" +
             	"\noooooddddddddddddddo:'.';codxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
             	"\nooooodddddddddddddddddoc;,,,;:::oxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" +
-            	"\noooooooddddddddddddddddxxdolc:;:lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            	"\noooooooddddddddddddddddxxdolc:;:lxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace _404Crawler
         {            
             if (pagesProcessed == null || pagesProcessed.Count == 0)
             {
-                return "There were no pages to process";
+                return "There were no pages to process\n";
             }
 
             string result = "";
