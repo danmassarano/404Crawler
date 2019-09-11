@@ -47,43 +47,12 @@ namespace _404CrawlerTests
             cmd.WaitForExit();
         }
 
-        [TestCategory("GetHeader")]
-        [TestMethod]
-        public void GetHeaderReturnsOKForGoodLinkTest()
-        {
-            //TODO: Refactor as unit test in WebHandlerTests
-            WebHandler handler = new WebHandler();
-            string url = "https://localhost:5001";
-
-            HttpStatusCode header = handler.GetHeader(url);
-
-            Assert.AreEqual(HttpStatusCode.OK, header);
-        }
-
-        [TestCategory("GetHeader")]
-        [TestMethod]
-        public void GetHeaderReturnsUnavailableForBadLinkTest()
-        {
-            //TODO: Refactor as unit test in WebHandlerTests
-            WebHandler handler = new WebHandler();
-            string url = "https://localhost:5001/badpage";
-
-            HttpStatusCode header = handler.GetHeader(url);
-
-            Assert.AreEqual(HttpStatusCode.NotFound, header);
-        }
-
-        [TestCategory("ScrapeLinks")]
-        [TestMethod]
-        public void ScrapeLinksReturnsCorrectNumber()
-        {
-            //TODO: Refactor as unit test in WebHandlerTests
-            WebHandler handler = new WebHandler();
-            string url = "https://localhost:5001";
-
-            ArrayList result = handler.ScrapeLinks(url);
-
-            Assert.AreEqual(24, result.Count);
-        }
+        /*
+         * CrawlerHasInvalidURLTest
+         * CrawlerHasPageWithNoLinksTest
+         * CrawlerHasPagesWithAllValidURLsTest
+         * CrawlerHasPagesWithAllInvalidURLsTest
+         * CrawlerHasPagesWithSomeInvalidURLsTest
+         */
     }
 }
