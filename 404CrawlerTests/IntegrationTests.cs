@@ -21,6 +21,7 @@ namespace _404CrawlerTests
         /// to run integration tests against. 
         /// </summary>
         [TestInitialize]
+        [TestCategory("Integration")]
         public void TestInitialize()
         {
             cmd = new Process();
@@ -40,6 +41,7 @@ namespace _404CrawlerTests
         /// Tears down testing environment after testing is done. 
         /// </summary>
         [TestCleanup]
+        [TestCategory("Integration")]
         public void TestCleanup()
         {
             cmd.StandardInput.Flush();
@@ -47,12 +49,51 @@ namespace _404CrawlerTests
             cmd.WaitForExit();
         }
 
-        /*
-         * CrawlerHasInvalidURLTest
-         * CrawlerHasPageWithNoLinksTest
-         * CrawlerHasPagesWithAllValidURLsTest
-         * CrawlerHasPagesWithAllInvalidURLsTest
-         * CrawlerHasPagesWithSomeInvalidURLsTest
-         */
+        [TestMethod]
+        [TestCategory("Integration")]
+        [TestCategory("Input")]
+        public void CrawlerHasInvalidURLTest()
+        {
+            //TODO fix error handling for this first, maybe just remove exception message
+
+            // Fix error handling, get expected result as string
+            // Add 'expected exception' tag
+            // How do I start the program from here and read console?
+            // Start program, pass nonsense URL
+            // Assert output is correct
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        [TestCategory("Input")]
+        public void CrawlerHasNullURLTest()
+        {
+            // get expected result as string
+            // Add 'expected exception' tag
+            // Start program, pass null URL
+            // Assert output is correct
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        [TestCategory("Crawler")]
+        public void TimeoutIsCaughtByException()
+        {
+            // How can I force a timeout?
+            // get expected result as string
+            // Add 'expected exception' tag
+            // Start program, pass localhost URL
+            // Assert output is correct
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        [TestCategory("Crawler")]
+        public void CrawlerHasPagesAndResultsTest()
+        {
+            // get expected result as number of pages processed, passed and failed
+            // Start program, pass localhost URL
+            // Assert output is correct
+        }
     }
 }

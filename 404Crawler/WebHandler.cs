@@ -13,7 +13,7 @@ namespace _404Crawler
     {
         // TODO should this be a static class? Might be easier to store arrays like that...
 
-        public string StartPage { get; internal set; }
+        public string StartPage { get; set; }
         internal readonly string externalSiteRegex = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
         internal readonly string internalSiteRegex = @"^\/{1}[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
 
@@ -40,14 +40,17 @@ namespace _404Crawler
                     }
                 }
             }
-            catch (WebException exception)
-            {
-                result = ((HttpWebResponse)exception.Response).StatusCode;
-            }
             catch (Exception)
             {
+                //todo remove and test
                 result = HttpStatusCode.Ambiguous;
+                Console.WriteLine("============================================");
+                Console.WriteLine(result);
+                Console.WriteLine("============================================");
             }
+            Console.WriteLine("============================================");
+            Console.WriteLine(result);
+            Console.WriteLine("============================================");
 
             return result;
         }
@@ -61,12 +64,8 @@ namespace _404Crawler
         {
             HtmlWeb site = new HtmlWeb();
             ArrayList links = new ArrayList();
-
             HtmlDocument page = site.Load(url);
-            //if (page.DocumentNode.SelectNodes("//a[@href]") == null)
-            //{
-            //    return null;
-            //}
+
             foreach (HtmlNode link in page.DocumentNode.SelectNodes("//a[@href]"))
             {
                 if (!links.Contains(link.Attributes["href"].Value))
@@ -144,7 +143,7 @@ namespace _404Crawler
         /// <param name="link">URL of web page to check</param>
         /// <returns>True of link is internal to the site - i.e. the domain matches
         /// that of the original page</returns>
-        internal bool IsInternalLinkWithDomain(object link)
+        public bool IsInternalLinkWithDomain(object link)
         {
             return link.ToString().StartsWith(StartPage, StringComparison.CurrentCulture);
         }
@@ -156,7 +155,7 @@ namespace _404Crawler
         /// </summary>
         /// <param name="link">URL of web page to be checked</param>
         /// <returns>True if link is internal to the site and uses a relative filepath</returns>
-        internal bool IsInternalLinkWithoutDomain(object link)
+        public bool IsInternalLinkWithoutDomain(object link)
         {
             RegexOptions options = RegexOptions.Multiline;
 
@@ -173,7 +172,7 @@ namespace _404Crawler
         /// </summary>
         /// <param name="link">URL of web page to be checked</param>
         /// <returns>True if URL is of a valid link pattern</returns>
-        internal bool IsExternalLink(object link)
+        public bool IsExternalLink(object link)
         {
             RegexOptions options = RegexOptions.Multiline;
 

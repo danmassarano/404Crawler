@@ -11,8 +11,8 @@ namespace _404CrawlerTests
     [TestClass]
     public class OutputTests
     {
-        [TestCategory("PrintHeader")]
         [TestMethod]
+        [TestCategory("PrintHeader")]
         public void PrintHeaderTest()
         {
             Output output = new Output();
@@ -23,8 +23,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintHeader")]
         [TestMethod]
+        [TestCategory("PrintHeader")]
         [ExpectedException(typeof(ArgumentNullException),
             "null was not specified")]
         public void PrintHeaderNullTest()
@@ -34,8 +34,8 @@ namespace _404CrawlerTests
             _ = output.PrintHeader(null);
         }
 
-        [TestCategory("PrintLogo")]
         [TestMethod]
+        [TestCategory("PrintLogo")]
         public void PrintLogoTest()
         {
             Output output = new Output();
@@ -56,8 +56,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintLogo")]
         [TestMethod]
+        [TestCategory("PrintLogo")]
         public void PrintLargeLogoTest()
         {
             Output output = new Output();
@@ -108,8 +108,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintNewLinks")]
         [TestMethod]
+        [TestCategory("PrintNewLinks")]
         public void PrintNewLinksWithPopulatedArrayTest()
         {
             Output output = new Output();
@@ -129,8 +129,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintNewLinks")]
         [TestMethod]
+        [TestCategory("PrintNewLinks")]
         public void PrintNewLinksWithEmptyArrayTest()
         {
             Output output = new Output();
@@ -142,8 +142,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintNewLinks")]
         [TestMethod]
+        [TestCategory("PrintNewLinks")]
         public void PrintNewLinksWithNullArrayTest()
         {
             Output output = new Output();
@@ -154,8 +154,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintResults")]
         [TestMethod]
+        [TestCategory("PrintResults")]
         public void PrintResultsWithPopulatedArraysAndNumberTest()
         {
             Output output = new Output();
@@ -182,8 +182,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintResults")]
         [TestMethod]
+        [TestCategory("PrintResults")]
         public void PrintResultsWithNullFirstArrayTest()
         {
             Output output = new Output();
@@ -200,8 +200,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintResults")]
         [TestMethod]
+        [TestCategory("PrintResults")]
         public void PrintResultsWithEmptyFirstArrayTest()
         {
             Output output = new Output();
@@ -219,8 +219,8 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        [TestCategory("PrintResults")]
         [TestMethod]
+        [TestCategory("PrintResults")]
         public void PrintResultsWithEmptySecondArrayTest()
         {
             Output output = new Output();

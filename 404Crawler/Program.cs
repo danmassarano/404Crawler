@@ -39,18 +39,18 @@ namespace _404Crawler
                 if (args.Length > 1)
                 {
                     startPage = args[1];
-                    Console.WriteLine(args[1]);
+                    Console.WriteLine(args[1] + "\n");
                 }
                 else
                 {
-                    startPage = "https://localhost:5001";
-                    //Console.Write("Enter URL of site to test: ");
-                    //startPage = Console.ReadLine();
+                    //startPage = "https://localhost:5001";
+                    Console.Write("Enter URL of site to test: ");
+                    startPage = Console.ReadLine();
                 }
 
                 handler.StartPage = startPage;
-                Console.WriteLine(output.PrintLargeLogo());
-                Console.WriteLine(output.PrintHeader(startPage));
+                Console.WriteLine(output.PrintLogo());
+                Console.WriteLine("\n" + output.PrintHeader(startPage));
 
                 pagesToProcess = handler.ScrapeLinks(startPage);
                 pagesToProcess = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);

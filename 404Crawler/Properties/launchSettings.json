@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "_404Crawler": {
+    "404Crawler": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
