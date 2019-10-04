@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace _404Crawler
 {
@@ -14,10 +12,9 @@ namespace _404Crawler
         /// Configures the services.
         /// </summary>
         /// <param name="services">Services</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            //TODO: What does this do? Remove? Test?
-        }
+        //public void ConfigureServices(IServiceCollection services)
+        //{
+        //}
 
         /// <summary>
         /// Configure the specified app and env.
@@ -30,11 +27,10 @@ namespace _404Crawler
             {
                 app.UseDeveloperExceptionPage();
             }
-            // TODO: Remove?
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
         }
     }
 }

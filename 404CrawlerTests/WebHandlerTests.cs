@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Diagnostics;
 using System.Net;
 using _404Crawler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace _404CrawlerTests
 {
@@ -12,7 +10,7 @@ namespace _404CrawlerTests
     {
 
         //Process cmd;
-
+        // TODO: SETUP/TEARDOWN TEST APP
         ///// <summary>
         ///// Sets up environment for testing. A local webpage needs to booted up
         ///// to run integration tests against. 
@@ -46,45 +44,54 @@ namespace _404CrawlerTests
 
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("GetHeader")]
         public void GetHeaderValidURLTest()
         {
-            //TODO: how to mock http requests?
-            //var response = new Mock<HttpWebResponse>(MockBehavior.Loose);
-            //response.Setup(c => c.StatusCode).Returns(HttpStatusCode.OK);
+            var handler = new WebHandler();
+            var expected = HttpStatusCode.OK;
 
-            //var request = new Mock<HttpWebRequest>();
-            //request.Setup(s => s.GetResponse()).Returns(response.Object);
-            //NextRequest = request.Object;
-            //return request.Object;
+            var result = handler.GetHeader("https://localhost:5001");
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("GetHeader")]
         public void GetHeaderInvalidURLTest()
         {
-            // returns an exception
+            var handler = new WebHandler();
+            var expected = HttpStatusCode.OK;
+
+            var result = handler.GetHeader("https://localhost:5001/fake");
+
+            Assert.AreNotEqual(expected, result);
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("GetHeader")]
-        public void GetHeaderUnresponsiveURLTest()
+        [ExpectedException(typeof(System.UriFormatException),
+            "Invalid URI: The format of the URI could not be determined.")]
+        public void GetHeaderInvalidFormatTest()
         {
-            // force a timeout and return exception
+            var handler = new WebHandler();
+
+            _ = handler.GetHeader("fake");
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("ScrapeLinks")]
         public void ScrapeLinksTest()
         {
-            // might have to set up and tear down mvc, then check number of links
-        }
+            var handler = new WebHandler();
+            var expected = 4;
 
-        [TestMethod]
-        [TestCategory("ScrapeLinks")]
-        public void ScrapeLinksWithNoLinksTest()
-        {
-            // might have to set up and tear down mvc, then check number of links
+            var result = handler.ScrapeLinks("https://localhost:5001/Home/About").Count;
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -199,30 +206,40 @@ namespace _404CrawlerTests
 
         [TestMethod]
         [TestCategory("AddNewLinks")]
-        public void AddNewLinksWithNewLinksTest()
+        public void AddNewLinksTest()
         {
-            // pass arrays and check result
+            var handler = new WebHandler();
+            var expected = 4;
+
+            var result = handler.AddNewLinks(new ArrayList(), "https://localhost:5001/Home/About").Count;
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        [TestCategory("AddNewLinks")]
-        public void AddNewLinksWithNoNewLinksTest()
-        {
-            // pass arrays and check result
-        }
-
-        [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("PageExists")]
         public void PageExistsTrueTest()
         {
-            // mock httprequest or startup/teardown mvc
+            var handler = new WebHandler();
+            var expected = true;
+
+            var result = handler.PageExists("https://localhost:5001");
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("PageExists")]
         public void PageExistsFalseTest()
         {
-            // mock httprequest or startup/teardown mvc
+            var handler = new WebHandler();
+            var expected = false;
+
+            var result = handler.PageExists("https://localhost:5001/fake");
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]

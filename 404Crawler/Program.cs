@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Net;
 
 namespace _404Crawler
 {

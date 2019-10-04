@@ -11,7 +11,7 @@ namespace _404Crawler
     /// </summary>
     public class WebHandler
     {
-        // TODO should this be a static class? Might be easier to store arrays like that...
+        // TODO: should this be a static class? Might be easier to store arrays like that...
 
         public string StartPage { get; set; }
         internal readonly string externalSiteRegex = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
@@ -42,7 +42,7 @@ namespace _404Crawler
             }
             catch (Exception)
             {
-                //todo remove and test
+                //TODO: remove and test
                 result = HttpStatusCode.Ambiguous;
                 Console.WriteLine("============================================");
                 Console.WriteLine(result);
