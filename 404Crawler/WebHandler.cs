@@ -11,8 +11,6 @@ namespace _404Crawler
     /// </summary>
     public class WebHandler
     {
-        // TODO: should this be a static class? Might be easier to store arrays like that...
-
         public string StartPage { get; set; }
         internal readonly string externalSiteRegex = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
         internal readonly string internalSiteRegex = @"^\/{1}[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
@@ -25,6 +23,7 @@ namespace _404Crawler
         /// <param name="url">URL</param>
         public HttpStatusCode GetHeader(string url)
         {
+            //TODO: Improve error handling for invalid and null links
             HttpStatusCode result = default(HttpStatusCode);
 
             var request = WebRequest.Create(url);

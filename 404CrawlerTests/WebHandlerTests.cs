@@ -5,6 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace _404CrawlerTests
 {
+    /// <summary>
+    /// Unit tests for WebHandler class, tests logic and web handling are correct
+    /// Tests tagged as <c>Online</c> require the MVC Test app to be running on
+    /// <c>localhost:5001</c>
+    /// </summary>
     [TestClass]
     public class WebHandlerTests
     {
