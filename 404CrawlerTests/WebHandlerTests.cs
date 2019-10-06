@@ -47,7 +47,7 @@ namespace _404CrawlerTests
         //    cmd.WaitForExit();
         //}
 
-
+        //TODO: Extract localhost strings to a local variable so it can easily be changed
         [TestMethod]
         [TestCategory("Online")]
         [TestCategory("GetHeader")]

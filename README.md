@@ -37,4 +37,14 @@ kill -9 <ID of process>
 ```
 
 ### Extensions
-This is a work in progress and has a lot to go, including improving the crawler process, optimisation, making sure it's compliant with robots protocol and more. This will be update in the future.
+This is a work in progress and has a lot to go, here's a non exhaustive list:
+
+* Improving the crawler process, structure and logic
+* Making sure it's compliant with robots protocol
+* Improving how invalid links are handled
+* More flexible and reliable tests
+* Logging and better console formatting
+* Testing that links are using https
+* Handling dynamically generated pages
+* Performance improvements & testing
+* Multithreading
