@@ -25,6 +25,7 @@ namespace _404Crawler
             Output output = new Output();
             WebHandler handler = new WebHandler();
 
+
             ArrayList pagesProcessed = new ArrayList();
             ArrayList pagesToProcess = new ArrayList();
             ArrayList pagesFailed = new ArrayList();
@@ -48,30 +49,34 @@ namespace _404Crawler
                 }
 
                 handler.StartPage = startPage;
+                Crawler crawler = new Crawler(startPage);
                 Console.WriteLine(output.PrintLogo());
                 Console.WriteLine("\n" + output.PrintHeader(startPage));
 
+
+
+
                 pagesToProcess = handler.ScrapeLinks(startPage);
-                pagesToProcess = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
+                pagesToProcess = crawler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
 
                 foreach (var link in pagesToProcess)
                 {
                     Console.WriteLine($"Checking link: {link.ToString()}");
 
-                    if (handler.IsInternalLinkWithDomain(link) && handler.PageExists(link))
+                    if (crawler.IsInternalLinkWithDomain(link) && crawler.PageExists(link))
                     {
                         NewPagesFound = handler.AddNewLinks(NewPagesFound, link);
                         numPagesPassed++;
                     }
-                    else if (handler.IsInternalLinkWithoutDomain(link))
+                    else if (crawler.IsInternalLinkWithoutDomain(link))
                     {
-                        if (handler.PageExists(string.Concat(startPage, link)))
+                        if (crawler.PageExists(string.Concat(startPage, link)))
                         {
                             NewPagesFound = handler.AddNewLinks(NewPagesFound, string.Concat(startPage, link));
                             numPagesPassed++;
                         }
                     }
-                    else if (handler.IsExternalLink(link) && handler.PageExists(link))
+                    else if (crawler.IsExternalLink(link) && crawler.PageExists(link))
                     {
                         numPagesPassed++;
                     }
@@ -86,8 +91,13 @@ namespace _404Crawler
 
                 Console.WriteLine(output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed));
 
-                pagesToProcess = handler.RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
+                pagesToProcess = crawler.RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
                 Console.WriteLine(output.PrintNewLinks(pagesToProcess));
+
+
+
+
+
             }
             catch (ArgumentNullException exception)
             {

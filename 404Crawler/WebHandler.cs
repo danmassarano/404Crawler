@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Net;
-using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace _404Crawler
@@ -77,36 +76,6 @@ namespace _404Crawler
         }
 
         /// <summary>
-        /// Removes any links that are either duplicates, link to the current page, or
-        /// have already been checked
-        /// </summary>
-        /// <param name="pagesToProcess">ArrayList to check</param>
-        /// <param name="pagesProcessed">ArrayList to check against for duplicates</param>
-        /// <returns>Corrected ArrayList of pages to process</returns>
-        public ArrayList RemoveDuplicateLinks(ArrayList pagesToProcess, ArrayList pagesProcessed)
-        {
-            var pagesToProcessTrimmed = new ArrayList();
-
-            foreach (var link in pagesToProcess)
-            {
-                if (!pagesToProcessTrimmed.Contains(link)
-                    && !pagesProcessed.Contains(link)
-                    && !link.ToString().StartsWith("#", StringComparison.CurrentCulture)
-                    && !link.ToString().StartsWith("mailto", StringComparison.CurrentCulture)
-                    && !link.ToString().Equals("/"))
-                {
-                    pagesToProcessTrimmed.Add(link);
-                }
-                else
-                {
-                    Console.WriteLine($"{link.ToString()} : Removed from list");
-                }
-            }
-
-            return pagesToProcessTrimmed;
-        }
-
-        /// <summary>
         /// Checks for all links on a webpage and adds them to a list
         /// </summary>
         /// <param name="pagesToProcess">ArrayList containing all links being checked</param>
@@ -123,63 +92,6 @@ namespace _404Crawler
             }
 
             return pagesToProcess;
-        }
-
-        /// <summary>
-        /// Checks if a page exists by getting its header and inspecting the HTTP response code
-        /// </summary>
-        /// <param name="link">URL of web page to check</param>
-        /// <returns>True of page exists (ie header contains 200 response code)</returns>
-        public bool PageExists(object link)
-        {
-            return GetHeader(link.ToString()).Equals(HttpStatusCode.OK);
-        }
-
-        /// <summary>
-        /// Checks if a given link is internal or external.
-        /// This looks for links that start with the same domain as the original page checked
-        /// </summary>
-        /// <param name="link">URL of web page to check</param>
-        /// <returns>True of link is internal to the site - i.e. the domain matches
-        /// that of the original page</returns>
-        public bool IsInternalLinkWithDomain(object link)
-        {
-            return link.ToString().StartsWith(StartPage, StringComparison.CurrentCulture);
-        }
-
-        /// <summary>
-        /// Checks if a given link is internal or external.
-        /// This looks for links that use a relative path rather than an absolute one.
-        /// (eg <c>/home/about/</c>)a`
-        /// </summary>
-        /// <param name="link">URL of web page to be checked</param>
-        /// <returns>True if link is internal to the site and uses a relative filepath</returns>
-        public bool IsInternalLinkWithoutDomain(object link)
-        {
-            RegexOptions options = RegexOptions.Multiline;
-
-            foreach (Match m in Regex.Matches(link.ToString(), internalSiteRegex, options))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Checks if a given link has a valid URL - i.e. it looks like it should
-        /// belong to a webpage
-        /// </summary>
-        /// <param name="link">URL of web page to be checked</param>
-        /// <returns>True if URL is of a valid link pattern</returns>
-        public bool IsExternalLink(object link)
-        {
-            RegexOptions options = RegexOptions.Multiline;
-
-            foreach (Match m in Regex.Matches(link.ToString(), externalSiteRegex, options))
-            {
-                return true;
-            }
-            return false;
         }
     }
 }
