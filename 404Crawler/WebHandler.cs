@@ -10,10 +10,6 @@ namespace _404Crawler
     /// </summary>
     public class WebHandler
     {
-        public string StartPage { get; set; }
-        internal readonly string externalSiteRegex = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
-        internal readonly string internalSiteRegex = @"^\/{1}[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
-
         /// <summary>
         /// Checks returned header of a webpage for it's status code. 
         /// Used to see if a webpage is working or not
@@ -72,6 +68,7 @@ namespace _404Crawler
                     Console.WriteLine($"{link.Attributes["href"].Value} : Added to list");
                 }
             }
+
             return links;
         }
 

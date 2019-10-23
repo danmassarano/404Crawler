@@ -6,18 +6,22 @@ using System.Text.RegularExpressions;
 
 namespace _404Crawler
 {
+    /// <summary>
+    /// The Crawler class contains all the app logic for the crawler
+    /// </summary>
     public class Crawler
     {
         public string startPage;
 
-        public Crawler(string page)
-        {
-            startPage = page;
-        }
-
-
         private List<string> links;
         private List<Link> allLinks;
+
+        ArrayList pagesProcessed = new ArrayList();
+        ArrayList pagesToProcess = new ArrayList();
+        ArrayList pagesFailed = new ArrayList();
+        ArrayList NewPagesFound = new ArrayList();
+
+        int numPagesPassed = 0;
 
         Output output = new Output();
         WebHandler handler = new WebHandler();
@@ -25,18 +29,73 @@ namespace _404Crawler
         internal readonly string externalSiteRegex = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
         internal readonly string internalSiteRegex = @"^\/{1}[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
 
+        /// <summary>
+        /// Constructor class used to create and call the crawler
+        /// </summary>
+        /// <param name="page">Full URL of web page to test</param>
+        public Crawler(string page)
+        {
+            startPage = page;
+        }
+
+        /// <summary>
+        /// Initial version of crawler - only does process for a single page
+        /// Will be replaced soon with a proper crawler method
+        /// </summary>
+        public void CrawlFirst()
+        {
+            PrintCrawlerHeader();
+
+            pagesToProcess = handler.ScrapeLinks(startPage);
+            pagesToProcess = RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
+
+            foreach (var link in pagesToProcess)
+            {
+                Console.WriteLine($"Checking link: {link.ToString()}");
+
+                if (IsInternalLinkWithDomain(link) && PageExists(link))
+                {
+                    NewPagesFound = handler.AddNewLinks(NewPagesFound, link);
+                    numPagesPassed++;
+                }
+                else if (IsInternalLinkWithoutDomain(link))
+                {
+                    if (PageExists(string.Concat(startPage, link)))
+                    {
+                        NewPagesFound = handler.AddNewLinks(NewPagesFound, string.Concat(startPage, link));
+                        numPagesPassed++;
+                    }
+                }
+                else if (IsExternalLink(link) && PageExists(link))
+                {
+                    numPagesPassed++;
+                }
+                else
+                {
+                    Console.WriteLine($"{link} : Bad link");
+                    pagesFailed.Add(link);
+                }
+
+                pagesProcessed.Add(link);
+            }
+
+            Console.WriteLine(output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed));
+
+            pagesToProcess = RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
+            Console.WriteLine(output.PrintNewLinks(pagesToProcess));
+        }
+
         //TODO: complete method
         // crawl()
             // for each link in links
-                // if link !tested (not in allLinks or is flagged tested = false
+                // if link !tested (not in allLinks or is flagged tested = false)
                     // print link
                     // check link exists
                     // add to allLinks (URL, pass/fail, tested)
                     // if exists
                         // List<string> newLinks = addNewLinks(link)
                         // crawl(newLinks)
-        // TODO how does it process or ourput results?
-
+                        // TODO how does it process or ourput results?
 
         /// <summary>
         /// Removes any links that are either duplicates, link to the current page, or
@@ -69,7 +128,7 @@ namespace _404Crawler
         }
 
         /// <summary>
-        /// Checks for all links on a webpage and adds them to a list
+        /// Checks for all new links on a webpage and adds them to a list
         /// </summary>
         /// <param name="pagesToProcess">ArrayList containing all links being checked</param>
         /// <param name="link">URL of web page to check</param>
@@ -86,6 +145,15 @@ namespace _404Crawler
             }
 
             return pagesToProcess;
+        }
+
+        /// <summary>
+        /// Prints out header and logo for crawler at start of program
+        /// </summary>
+        private void PrintCrawlerHeader()
+        {
+            Console.WriteLine(output.PrintLogo());
+            Console.WriteLine("\n" + output.PrintHeader(startPage));
         }
 
         /// <summary>
