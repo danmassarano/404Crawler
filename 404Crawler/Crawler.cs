@@ -137,7 +137,7 @@ namespace _404Crawler
         /// that of the original page</returns>
         public bool IsInternalLinkWithDomain(string link)
         {
-            return link.ToString().StartsWith(startPage, StringComparison.CurrentCulture);
+            return link.StartsWith(startPage, StringComparison.CurrentCulture);
         }
 
         /// <summary>
