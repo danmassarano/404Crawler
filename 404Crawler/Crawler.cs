@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -11,20 +11,13 @@ namespace _404Crawler
     /// </summary>
     public class Crawler
     {
-        public string startPage;
+        private readonly string startPage;
 
-        private List<string> links;
-        private List<Link> allLinks;
+        private readonly List<string> links = new List<string>();
+        private readonly List<Link> allLinks = new List<Link>();
 
-        ArrayList pagesProcessed = new ArrayList();
-        ArrayList pagesToProcess = new ArrayList();
-        ArrayList pagesFailed = new ArrayList();
-        ArrayList NewPagesFound = new ArrayList();
-
-        int numPagesPassed = 0;
-
-        Output output = new Output();
-        WebHandler handler = new WebHandler();
+        readonly Output output = new Output();
+        readonly WebHandler handler = new WebHandler();
 
         internal readonly string externalSiteRegex = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
         internal readonly string internalSiteRegex = @"^\/{1}[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
@@ -36,115 +29,45 @@ namespace _404Crawler
         public Crawler(string page)
         {
             startPage = page;
+            PrintCrawlerHeader();
         }
 
         /// <summary>
-        /// Initial version of crawler - only does process for a single page
-        /// Will be replaced soon with a proper crawler method
+        /// Recursively tests all links pointed to in a web page
         /// </summary>
-        public void CrawlFirst()
+        /// <param name="pageToCrawl">URL of web page to check</param>
+        public void Crawl(string pageToCrawl)
         {
-            PrintCrawlerHeader();
+            string urlToCrawl = GetCompleteURL(pageToCrawl);
 
-            pagesToProcess = handler.ScrapeLinks(startPage);
-            pagesToProcess = RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
+            // TODO: Refactor scrapeLinks to return list of strings so we don't need this bit
+            var temp = handler.ScrapeLinks(urlToCrawl);
 
-            foreach (var link in pagesToProcess)
+            foreach (var link in temp)
             {
-                Console.WriteLine($"Checking link: {link.ToString()}");
+                links.Add(link.ToString());
+            }
 
-                if (IsInternalLinkWithDomain(link) && PageExists(link))
+            foreach (var link in links.ToList())
+            {
+                if (!LinkTested(link))
                 {
-                    NewPagesFound = handler.AddNewLinks(NewPagesFound, link);
-                    numPagesPassed++;
-                }
-                else if (IsInternalLinkWithoutDomain(link))
-                {
-                    if (PageExists(string.Concat(startPage, link)))
+                    Console.WriteLine($"{link} : Testing...");
+
+                    System.Threading.Thread.Sleep(200);
+
+                    bool exists = PageExists(link);
+                    bool isInternal = LinkIsInternal(link);
+
+                    allLinks.Add(new Link(pageToCrawl, link, exists, !isInternal));
+
+                    if (exists && isInternal)
                     {
-                        NewPagesFound = handler.AddNewLinks(NewPagesFound, string.Concat(startPage, link));
-                        numPagesPassed++;
+                        Console.WriteLine($"{link} : Scraping from page...");
+                        Crawl(link);
                     }
                 }
-                else if (IsExternalLink(link) && PageExists(link))
-                {
-                    numPagesPassed++;
-                }
-                else
-                {
-                    Console.WriteLine($"{link} : Bad link");
-                    pagesFailed.Add(link);
-                }
-
-                pagesProcessed.Add(link);
             }
-
-            Console.WriteLine(output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed));
-
-            pagesToProcess = RemoveDuplicateLinks(NewPagesFound, pagesProcessed);
-            Console.WriteLine(output.PrintNewLinks(pagesToProcess));
-        }
-
-        //TODO: complete method
-        // crawl()
-            // for each link in links
-                // if link !tested (not in allLinks or is flagged tested = false)
-                    // print link
-                    // check link exists
-                    // add to allLinks (URL, pass/fail, tested)
-                    // if exists
-                        // List<string> newLinks = addNewLinks(link)
-                        // crawl(newLinks)
-                        // TODO how does it process or ourput results?
-
-        /// <summary>
-        /// Removes any links that are either duplicates, link to the current page, or
-        /// have already been checked
-        /// </summary>
-        /// <param name="pagesToProcess">ArrayList to check</param>
-        /// <param name="pagesProcessed">ArrayList to check against for duplicates</param>
-        /// <returns>Corrected ArrayList of pages to process</returns>
-        public ArrayList RemoveDuplicateLinks(ArrayList pagesToProcess, ArrayList pagesProcessed)
-        {
-            var pagesToProcessTrimmed = new ArrayList();
-
-            foreach (var link in pagesToProcess)
-            {
-                if (!pagesToProcessTrimmed.Contains(link)
-                    && !pagesProcessed.Contains(link)
-                    && !link.ToString().StartsWith("#", StringComparison.CurrentCulture)
-                    && !link.ToString().StartsWith("mailto", StringComparison.CurrentCulture)
-                    && !link.ToString().Equals("/"))
-                {
-                    pagesToProcessTrimmed.Add(link);
-                }
-                else
-                {
-                    Console.WriteLine($"{link.ToString()} : Removed from list");
-                }
-            }
-
-            return pagesToProcessTrimmed;
-        }
-
-        /// <summary>
-        /// Checks for all new links on a webpage and adds them to a list
-        /// </summary>
-        /// <param name="pagesToProcess">ArrayList containing all links being checked</param>
-        /// <param name="link">URL of web page to check</param>
-        /// <returns>ArrayList updated with new links</returns>
-        public ArrayList AddNewLinks(ArrayList pagesToProcess, object link)
-        {
-            Console.WriteLine($"{link.ToString()} : OK");
-            ArrayList nextPage = handler.ScrapeLinks(link.ToString());
-            //TODO: Call RemoveDuplicateLinks here;
-
-            foreach (var newLink in nextPage)
-            {
-                pagesToProcess.Add(newLink);
-            }
-
-            return pagesToProcess;
         }
 
         /// <summary>
@@ -152,18 +75,64 @@ namespace _404Crawler
         /// </summary>
         private void PrintCrawlerHeader()
         {
-            Console.WriteLine(output.PrintLogo());
-            Console.WriteLine("\n" + output.PrintHeader(startPage));
+            Console.WriteLine(output.PrintLogo() + "\n" + output.PrintHeader(startPage));
+        }
+
+        /// <summary>
+        /// Returns List of all links processed for results
+        /// </summary>
+        /// <returns>allLinks List</returns>
+        public List<Link> GetAllLinksProcessed()
+        {
+            return allLinks;
+        }
+
+        /// <summary>
+        /// Ensures that URL being tested is complete and not a relative path
+        /// </summary>
+        /// <param name="link">URL of web page to check</param>
+        /// <returns>Complete URL of web page to check</returns>
+        public string GetCompleteURL(string link)
+        {
+            string url = link;
+
+            if (IsInternalLinkWithoutDomain(url))
+            {
+                url = string.Concat(startPage, url);
+            }
+
+            return url;
         }
 
         /// <summary>
         /// Checks if a page exists by getting its header and inspecting the HTTP response code
         /// </summary>
         /// <param name="link">URL of web page to check</param>
-        /// <returns>True of page exists (ie header contains 200 response code)</returns>
+        /// <returns>True if page exists (ie header contains 200 response code)</returns>
         public bool PageExists(object link)
         {
             return handler.GetHeader(link.ToString()).Equals(HttpStatusCode.OK);
+        }
+
+        /// <summary>
+        /// Checks if link has already been tested or not
+        /// Looks for link existing in allLinks - if there, it's been tested
+        /// </summary>
+        /// <param name="url">URL of web page to check</param>
+        /// <returns>True if link has been tested</returns>
+        private bool LinkTested(string url)
+        {
+            return allLinks.Any(l => l.Name == url.ToString() || l.URL == url.ToString());
+        }
+
+        /// <summary>
+        /// Checks if a given link is internal or external.
+        /// </summary>
+        /// <param name="link">URL of web page to check</param>
+        /// <returns>True of link is internal to the site</returns>
+        private bool LinkIsInternal(string link)
+        {
+            return IsInternalLinkWithDomain(link) || IsInternalLinkWithoutDomain(link);
         }
 
         /// <summary>

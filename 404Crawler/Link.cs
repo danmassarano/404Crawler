@@ -2,17 +2,17 @@
 {
     public class Link
     {
-        string URL { get; set; }
+        public string Name;
+        public string URL;
+        public bool Passed;
+        public bool External;
 
-        bool Tested { get; set; }
-
-        bool Passed { get; set; }
-
-        public Link(string url, bool tested, bool passed)
+        public Link(string name, string url, bool passed, bool external)
         {
+            Name = name;
             URL = url;
-            Tested = tested;
             Passed = passed;
+            External = external;
         }
     }
 }

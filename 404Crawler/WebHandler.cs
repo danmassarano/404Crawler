@@ -19,7 +19,7 @@ namespace _404Crawler
         public HttpStatusCode GetHeader(string url)
         {
             //TODO: Improve error handling for invalid and null links
-            HttpStatusCode result = default(HttpStatusCode);
+            HttpStatusCode result = default;
 
             var request = WebRequest.Create(url);
             request.Method = "HEAD";
@@ -38,13 +38,8 @@ namespace _404Crawler
             {
                 //TODO: remove and test
                 result = HttpStatusCode.Ambiguous;
-                Console.WriteLine("============================================");
-                Console.WriteLine(result);
-                Console.WriteLine("============================================");
             }
-            Console.WriteLine("============================================");
-            Console.WriteLine(result);
-            Console.WriteLine("============================================");
+            Console.WriteLine($"{url} : {result}");
 
             return result;
         }
@@ -56,6 +51,7 @@ namespace _404Crawler
         /// <param name="url">URL</param>
         public ArrayList ScrapeLinks(string url)
         {
+            // TODO: Refactor
             HtmlWeb site = new HtmlWeb();
             ArrayList links = new ArrayList();
             HtmlDocument page = site.Load(url);
@@ -64,31 +60,18 @@ namespace _404Crawler
             {
                 if (!links.Contains(link.Attributes["href"].Value))
                 {
-                    links.Add(link.Attributes["href"].Value);
-                    Console.WriteLine($"{link.Attributes["href"].Value} : Added to list");
+                    string newLink = link.Attributes["href"].Value;
+                    if (!newLink.StartsWith("#", StringComparison.CurrentCulture)
+                        && !newLink.StartsWith("mailto", StringComparison.CurrentCulture)
+                        && !newLink.Equals("/"))
+                    {
+                        links.Add(newLink);
+                        Console.WriteLine($"{newLink} : Added to list");
+                    } 
                 }
             }
 
             return links;
-        }
-
-        /// <summary>
-        /// Checks for all links on a webpage and adds them to a list
-        /// </summary>
-        /// <param name="pagesToProcess">ArrayList containing all links being checked</param>
-        /// <param name="link">URL of web page to check</param>
-        /// <returns>ArrayList updated with new links</returns>
-        public ArrayList AddNewLinks(ArrayList pagesToProcess, object link)
-        {
-            Console.WriteLine($"{link.ToString()} : OK");
-            ArrayList nextPage = ScrapeLinks(link.ToString());
-
-            foreach (var newLink in nextPage)
-            {
-                pagesToProcess.Add(newLink);
-            }
-
-            return pagesToProcess;
         }
     }
 }

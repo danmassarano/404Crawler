@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace _404Crawler
 {
@@ -94,57 +95,39 @@ namespace _404Crawler
         }
 
         /// <summary>
-        /// Outputs all new links to process found
-        /// </summary>
-        /// <param name="pagesToProcess"></param>
-        /// <returns>A formatted string to print new links</returns>
-        public string PrintNewLinks(ArrayList pagesToProcess)
-        {
-            if (pagesToProcess == null || pagesToProcess.Count == 0)
-            {
-                return "Number of new pages to process : 0\n";
-            }
-
-            string result = "";
-            result += $"Number of new pages to process : {pagesToProcess.Count}\n";
-            result += $"New links found:\n";
-
-            foreach (var link in pagesToProcess)
-            {
-                result += $"{link.ToString()}\n";
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Builds string to print results from crawl.
         /// Shows how many pages passed and failed
         /// </summary>
-        /// <param name="pagesProcessed"></param>
-        /// <param name="pagesFailed"></param>
-        /// <param name="numPagesPassed"></param>
+        /// <param name="links">List of all links tested</param>
         /// <returns>A formatted string to print results</returns>
-        public string PrintResults(ArrayList pagesProcessed, ArrayList pagesFailed, int numPagesPassed)
-        {            
-            if (pagesProcessed == null || pagesProcessed.Count == 0)
+        public string PrintResults(List<Link> links)
+        {
+            if (links == null || links.Count == 0)
             {
-                return "There were no pages to process\n";
+                return "\nThere were no pages to test\n";
             }
 
-            string result = "";
-            result += $"Total pages processed: {pagesProcessed.Count}\n";
-            result += $"Total pages passed: {numPagesPassed}\n";
-            result += $"Total pages failed: {pagesFailed.Count}\n";
+            int processed = links.Count;
+            int passed = links.FindAll(l => l.Passed == true).Count;
+            int failed = processed - passed;
 
-            if (pagesFailed.Count > 0)
+            string result = "\n";
+            result += $"Total pages tested : {processed}\n";
+            result += $"Total pages passed : {passed}\n";
+            result += $"Total pages failed : {failed}\n";
+
+            if (failed > 0)
             {
                 result += "Pages failed:\n";
 
-                foreach (var link in pagesFailed)
+                foreach (var link in links.FindAll(l => l.Passed == false))
                 {
-                    result += $"{link.ToString()}\n";
+                    result += $"\t{link.URL}\n";
                 }
+            }
+            else
+            {
+                result += "All pages passed!\n";
             }
 
             return result;

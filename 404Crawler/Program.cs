@@ -21,10 +21,10 @@ namespace _404Crawler
         /// <param name="args">The command-line arguments.</param>
         public static void Main(string[] args)
         {
-            string startPage;
-
             try
             {
+                string startPage;
+
                 if (args.Length > 1)
                 {
                     startPage = args[1];
@@ -38,7 +38,9 @@ namespace _404Crawler
                 }
 
                 Crawler crawler = new Crawler(startPage);
-                crawler.CrawlFirst();
+                Output output = new Output();
+                crawler.Crawl(startPage);
+                Console.WriteLine(output.PrintResults(crawler.GetAllLinksProcessed()));
             }
             catch (ArgumentNullException exception)
             {
