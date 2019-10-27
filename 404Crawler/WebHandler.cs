@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using HtmlAgilityPack;
 
@@ -25,19 +25,15 @@ namespace _404Crawler
             request.Method = "HEAD";
             try
             {
-                using (var response = request.GetResponse() as HttpWebResponse)
+                if (request.GetResponse() is HttpWebResponse response)
                 {
-                    if (response != null)
-                    {
-                        result = response.StatusCode;
-                        response.Close();
-                    }
+                    result = response.StatusCode;
+                    response.Close();
                 }
             }
             catch (Exception)
             {
-                //TODO: remove and test
-                result = HttpStatusCode.Ambiguous;
+                result = HttpStatusCode.NotFound;
             }
             Console.WriteLine($"{url} : {result}");
 
@@ -47,13 +43,12 @@ namespace _404Crawler
         /// <summary>
         /// Takes all links from an HTML web page and stores them in a list
         /// </summary>
-        /// <returns>ArrayList of all links</returns>
+        /// <returns>List of all links</returns>
         /// <param name="url">URL</param>
-        public ArrayList ScrapeLinks(string url)
+        public List<string> ScrapeLinks(string url)
         {
-            // TODO: Refactor
+            List<string> links = new List<string>();
             HtmlWeb site = new HtmlWeb();
-            ArrayList links = new ArrayList();
             HtmlDocument page = site.Load(url);
 
             foreach (HtmlNode link in page.DocumentNode.SelectNodes("//a[@href]"))

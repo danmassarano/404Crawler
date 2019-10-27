@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace _404Crawler
@@ -13,8 +12,8 @@ namespace _404Crawler
         /// <summary>
         /// Prints header for program
         /// </summary>
-        /// <param name="startPage"></param>
-        /// <exception cref="System.ArgumentNullException">Thrown when a null string is passwed as a URL</exception>
+        /// <param name="startPage">URL of web page to check</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when a null string is passed as a URL</exception>
         /// <returns>Header for program</returns>
         public string PrintHeader(string startPage)
         {

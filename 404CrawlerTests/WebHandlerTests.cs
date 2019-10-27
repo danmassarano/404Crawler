@@ -94,7 +94,7 @@ namespace _404CrawlerTests
             var handler = new WebHandler();
             var expected = 4;
 
-            var result = handler.ScrapeLinks("https://localhost:5001/Home/About").Count;
+            var result = WebHandler.ScrapeLinks(handler, "https://localhost:5001/Home/About").Count;
 
             Assert.AreEqual(expected, result);
         }

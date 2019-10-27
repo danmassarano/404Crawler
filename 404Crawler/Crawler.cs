@@ -13,7 +13,7 @@ namespace _404Crawler
     {
         private readonly string startPage;
 
-        private readonly List<string> links = new List<string>();
+        private List<string> links = new List<string>();
         private readonly List<Link> allLinks = new List<Link>();
 
         readonly Output output = new Output();
@@ -39,14 +39,7 @@ namespace _404Crawler
         public void Crawl(string pageToCrawl)
         {
             string urlToCrawl = GetCompleteURL(pageToCrawl);
-
-            // TODO: Refactor scrapeLinks to return list of strings so we don't need this bit
-            var temp = handler.ScrapeLinks(urlToCrawl);
-
-            foreach (var link in temp)
-            {
-                links.Add(link.ToString());
-            }
+            links = handler.ScrapeLinks(urlToCrawl);
 
             foreach (var link in links.ToList())
             {
@@ -59,7 +52,7 @@ namespace _404Crawler
                     bool exists = PageExists(link);
                     bool isInternal = LinkIsInternal(link);
 
-                    allLinks.Add(new Link(pageToCrawl, link, exists, !isInternal));
+                    allLinks.Add(new Link(pageToCrawl, link, exists, isInternal));
 
                     if (exists && isInternal)
                     {
@@ -109,9 +102,9 @@ namespace _404Crawler
         /// </summary>
         /// <param name="link">URL of web page to check</param>
         /// <returns>True if page exists (ie header contains 200 response code)</returns>
-        public bool PageExists(object link)
+        public bool PageExists(string link)
         {
-            return handler.GetHeader(link.ToString()).Equals(HttpStatusCode.OK);
+            return handler.GetHeader(link).Equals(HttpStatusCode.OK);
         }
 
         /// <summary>
@@ -142,7 +135,7 @@ namespace _404Crawler
         /// <param name="link">URL of web page to check</param>
         /// <returns>True of link is internal to the site - i.e. the domain matches
         /// that of the original page</returns>
-        public bool IsInternalLinkWithDomain(object link)
+        public bool IsInternalLinkWithDomain(string link)
         {
             return link.ToString().StartsWith(startPage, StringComparison.CurrentCulture);
         }
@@ -154,11 +147,11 @@ namespace _404Crawler
         /// </summary>
         /// <param name="link">URL of web page to be checked</param>
         /// <returns>True if link is internal to the site and uses a relative filepath</returns>
-        public bool IsInternalLinkWithoutDomain(object link)
+        public bool IsInternalLinkWithoutDomain(string link)
         {
             RegexOptions options = RegexOptions.Multiline;
 
-            foreach (Match m in Regex.Matches(link.ToString(), internalSiteRegex, options))
+            foreach (Match m in Regex.Matches(link, internalSiteRegex, options))
             {
                 return true;
             }
@@ -171,11 +164,11 @@ namespace _404Crawler
         /// </summary>
         /// <param name="link">URL of web page to be checked</param>
         /// <returns>True if URL is of a valid link pattern</returns>
-        public bool IsExternalLink(object link)
+        public bool IsExternalLink(string link)
         {
             RegexOptions options = RegexOptions.Multiline;
 
-            foreach (Match m in Regex.Matches(link.ToString(), externalSiteRegex, options))
+            foreach (Match m in Regex.Matches(link, externalSiteRegex, options))
             {
                 return true;
             }

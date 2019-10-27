@@ -5,14 +5,14 @@
         public string Name;
         public string URL;
         public bool Passed;
-        public bool External;
+        public bool Internal;
 
-        public Link(string name, string url, bool passed, bool external)
+        public Link(string name, string url, bool passed, bool isInternal)
         {
             Name = name;
             URL = url;
             Passed = passed;
-            External = external;
+            Internal = isInternal;
         }
     }
 }

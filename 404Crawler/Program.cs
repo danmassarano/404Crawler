@@ -18,7 +18,7 @@ namespace _404Crawler
         /// Now listening on: http://localhost:5000
         /// 
         /// </summary>
-        /// <param name="args">The command-line arguments.</param>
+        /// <param name="args">The command line arguments.</param>
         public static void Main(string[] args)
         {
             try
@@ -39,6 +39,7 @@ namespace _404Crawler
 
                 Crawler crawler = new Crawler(startPage);
                 Output output = new Output();
+
                 crawler.Crawl(startPage);
                 Console.WriteLine(output.PrintResults(crawler.GetAllLinksProcessed()));
             }
