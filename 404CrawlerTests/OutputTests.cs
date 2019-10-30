@@ -16,22 +16,11 @@ namespace _404CrawlerTests
         public void PrintHeaderTest()
         {
             Output output = new Output();
-            string expected = "Starting crawler from https://www.google.com";
+            string expected = "Starting crawler from https://www.google.com...";
 
             string result = output.PrintHeader("https://www.google.com");
 
             Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        [TestCategory("PrintHeader")]
-        [ExpectedException(typeof(ArgumentNullException),
-            "null was not specified")]
-        public void PrintHeaderNullTest()
-        {
-            Output output = new Output();
-
-            _ = output.PrintHeader(null);
         }
 
         [TestMethod]
@@ -109,55 +98,10 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
-        [TestCategory("PrintNewLinks")]
-        public void PrintNewLinksWithPopulatedArrayTest()
-        {
-            Output output = new Output();
-            ArrayList pages = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409",
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-
-            string expected = "Number of new pages to process : 2\n" +
-                                "New links found:\n" +
-                                "https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409\n" +
-                                "https://go.microsoft.com/fwlink/?LinkID=398939\n";
-
-            string result = output.PrintNewLinks(pages);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        [TestCategory("PrintNewLinks")]
-        public void PrintNewLinksWithEmptyArrayTest()
-        {
-            Output output = new Output();
-            ArrayList pages = new ArrayList();
-            string expected = "Number of new pages to process : 0\n";
-
-            string result = output.PrintNewLinks(pages);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        [TestCategory("PrintNewLinks")]
-        public void PrintNewLinksWithNullArrayTest()
-        {
-            Output output = new Output();
-            string expected = "Number of new pages to process : 0\n";
-
-            string result = output.PrintNewLinks(null);
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
         [TestCategory("PrintResults")]
         public void PrintResultsWithPopulatedArraysAndNumberTest()
         {
+            // TODO: Update test method
             Output output = new Output();
             ArrayList pagesProcessed = new ArrayList
             {
@@ -186,6 +130,7 @@ namespace _404CrawlerTests
         [TestCategory("PrintResults")]
         public void PrintResultsWithNullFirstArrayTest()
         {
+            // TODO: Update test method
             Output output = new Output();
             ArrayList pagesFailed = new ArrayList
             {
@@ -204,6 +149,7 @@ namespace _404CrawlerTests
         [TestCategory("PrintResults")]
         public void PrintResultsWithEmptyFirstArrayTest()
         {
+            // TODO: Update test method
             Output output = new Output();
             ArrayList pagesProcessed = new ArrayList();
             ArrayList pagesFailed = new ArrayList
@@ -223,6 +169,7 @@ namespace _404CrawlerTests
         [TestCategory("PrintResults")]
         public void PrintResultsWithEmptySecondArrayTest()
         {
+            // TODO: Update test method
             Output output = new Output();
             ArrayList pagesProcessed = new ArrayList
             {

@@ -49,7 +49,6 @@ namespace _404CrawlerTests
 
         //TODO: Extract localhost strings to a local variable so it can easily be changed
         [TestMethod]
-        [TestCategory("Online")]
         [TestCategory("GetHeader")]
         public void GetHeaderValidURLTest()
         {
@@ -62,7 +61,6 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
-        [TestCategory("Online")]
         [TestCategory("GetHeader")]
         public void GetHeaderInvalidURLTest()
         {
@@ -75,148 +73,26 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
-        [TestCategory("Online")]
         [TestCategory("GetHeader")]
         [ExpectedException(typeof(System.UriFormatException),
             "Invalid URI: The format of the URI could not be determined.")]
         public void GetHeaderInvalidFormatTest()
         {
+            // TODO: move to scrape links 
             var handler = new WebHandler();
 
             _ = handler.GetHeader("fake");
         }
 
         [TestMethod]
-        [TestCategory("Online")]
         [TestCategory("ScrapeLinks")]
         public void ScrapeLinksTest()
         {
+            // TODO: Update test method
             var handler = new WebHandler();
             var expected = 4;
 
             var result = WebHandler.ScrapeLinks(handler, "https://localhost:5001/Home/About").Count;
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        [TestCategory("RemoveDuplicateLinks")]
-        public void RemoveDuplicateLinksWithoutDuplicatesTest()
-        {
-            ArrayList pagesToProcess = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-            ArrayList pagesProcessed = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409"
-            };
-            ArrayList expected = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-
-            WebHandler handler = new WebHandler();
-            ArrayList result = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
-
-            Assert.AreEqual(expected.ToString(), result.ToString());
-        }
-
-        [TestMethod]
-        [TestCategory("RemoveDuplicateLinks")]
-        public void RemoveDuplicateLinksWithDuplicatesTest()
-        {
-            ArrayList pagesToProcess = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409",
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-            ArrayList pagesProcessed = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409"
-            };
-            ArrayList expected = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-
-            WebHandler handler = new WebHandler();
-            ArrayList result = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
-
-            Assert.AreEqual(expected.ToString(), result.ToString());
-        }
-
-        [TestMethod]
-        [TestCategory("RemoveDuplicateLinks")]
-        public void RemoveDuplicateLinksWithHashTest()
-        {
-            ArrayList pagesToProcess = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939",
-                "#"
-            };
-            ArrayList pagesProcessed = new ArrayList();
-            ArrayList expected = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-
-            WebHandler handler = new WebHandler();
-            ArrayList result = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
-
-            Assert.AreEqual(expected.ToString(), result.ToString());
-        }
-
-        [TestMethod]
-        [TestCategory("RemoveDuplicateLinks")]
-        public void RemoveDuplicateLinksWithMailtoTest()
-        {
-            ArrayList pagesToProcess = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939",
-                "mailto"
-            };
-            ArrayList pagesProcessed = new ArrayList();
-            ArrayList expected = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-
-            WebHandler handler = new WebHandler();
-            ArrayList result = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
-
-            Assert.AreEqual(expected.ToString(), result.ToString());
-        }
-
-        [TestMethod]
-        [TestCategory("RemoveDuplicateLinks")]
-        public void RemoveDuplicateLinksWithSlashTest()
-        {
-            ArrayList pagesToProcess = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939",
-                "/"
-            };
-            ArrayList pagesProcessed = new ArrayList();
-            ArrayList expected = new ArrayList
-            {
-                "https://go.microsoft.com/fwlink/?LinkID=398939"
-            };
-
-            WebHandler handler = new WebHandler();
-            ArrayList result = handler.RemoveDuplicateLinks(pagesToProcess, pagesProcessed);
-
-            Assert.AreEqual(expected.ToString(), result.ToString());
-        }
-
-        [TestMethod]
-        [TestCategory("AddNewLinks")]
-        public void AddNewLinksTest()
-        {
-            var handler = new WebHandler();
-            var expected = 4;
-
-            var result = handler.AddNewLinks(new ArrayList(), "https://localhost:5001/Home/About").Count;
 
             Assert.AreEqual(expected, result);
         }

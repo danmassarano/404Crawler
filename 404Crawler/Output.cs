@@ -13,16 +13,10 @@ namespace _404Crawler
         /// Prints header for program
         /// </summary>
         /// <param name="startPage">URL of web page to check</param>
-        /// <exception cref="ArgumentNullException">Thrown when a null string is passed as a URL</exception>
         /// <returns>Header for program</returns>
         public string PrintHeader(string startPage)
         {
-            if (string.IsNullOrEmpty(startPage))
-            {
-                throw new ArgumentNullException($"{nameof(startPage)} was not specified");
-            }
-
-            return $"Starting crawler from {startPage}";
+            return $"Starting crawler from {startPage}...";
         }
 
         /// <summary>

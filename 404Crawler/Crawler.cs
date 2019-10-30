@@ -68,7 +68,7 @@ namespace _404Crawler
         /// </summary>
         private void PrintCrawlerHeader()
         {
-            Console.WriteLine(output.PrintLogo() + "\n" + output.PrintHeader(startPage));
+            Console.WriteLine("\n" + output.PrintLogo() + "\n" + output.PrintHeader(startPage));
         }
 
         /// <summary>

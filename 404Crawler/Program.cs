@@ -28,7 +28,6 @@ namespace _404Crawler
                 if (args.Length > 1)
                 {
                     startPage = args[1];
-                    Console.WriteLine(args[1] + "\n");
                 }
                 else
                 {
@@ -43,20 +42,17 @@ namespace _404Crawler
                 crawler.Crawl(startPage);
                 Console.WriteLine(output.PrintResults(crawler.GetAllLinksProcessed()));
             }
-            catch (ArgumentNullException exception)
+            catch (ArgumentNullException)
             {
-                Console.WriteLine("Failed: No URL input");
-                Console.WriteLine(exception);
+                Console.WriteLine("Failed: No URL input. Try again with a valid link");
             }
-            catch (TimeoutException exception)
+            catch (TimeoutException)
             {
                 Console.WriteLine("Could not connect to target site");
-                Console.WriteLine(exception);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 Console.WriteLine("Something unexpected happened");
-                Console.WriteLine(exception);
             }
         }
     }

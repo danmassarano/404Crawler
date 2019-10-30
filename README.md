@@ -39,12 +39,11 @@ kill -9 <ID of process>
 ### Extensions
 This is a work in progress and has a lot to go, here's a non exhaustive list:
 
-* Improving the crawler process, structure and logic
-* Making sure it's compliant with robots protocol
 * Improving how invalid links are handled
-* More flexible and reliable tests
 * Logging and better console formatting
-* Testing that links are using https
+* More flexible and reliable tests
+* Making sure it's compliant with robots protocol
 * Handling dynamically generated pages
+* Testing that links are using https
 * Performance improvements & testing
 * Multithreading

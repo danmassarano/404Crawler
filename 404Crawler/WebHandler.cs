@@ -18,13 +18,13 @@ namespace _404Crawler
         /// <param name="url">URL</param>
         public HttpStatusCode GetHeader(string url)
         {
-            //TODO: Improve error handling for invalid and null links
             HttpStatusCode result = default;
 
-            var request = WebRequest.Create(url);
-            request.Method = "HEAD";
             try
             {
+                var request = WebRequest.Create(url);
+                request.Method = "HEAD";
+
                 if (request.GetResponse() is HttpWebResponse response)
                 {
                     result = response.StatusCode;
@@ -35,6 +35,7 @@ namespace _404Crawler
             {
                 result = HttpStatusCode.NotFound;
             }
+
             Console.WriteLine($"{url} : {result}");
 
             return result;
@@ -49,21 +50,29 @@ namespace _404Crawler
         {
             List<string> links = new List<string>();
             HtmlWeb site = new HtmlWeb();
-            HtmlDocument page = site.Load(url);
 
-            foreach (HtmlNode link in page.DocumentNode.SelectNodes("//a[@href]"))
+            try
             {
-                if (!links.Contains(link.Attributes["href"].Value))
+                HtmlDocument page = site.Load(url);
+
+                foreach (HtmlNode link in page.DocumentNode.SelectNodes("//a[@href]"))
                 {
-                    string newLink = link.Attributes["href"].Value;
-                    if (!newLink.StartsWith("#", StringComparison.CurrentCulture)
-                        && !newLink.StartsWith("mailto", StringComparison.CurrentCulture)
-                        && !newLink.Equals("/"))
+                    if (!links.Contains(link.Attributes["href"].Value))
                     {
-                        links.Add(newLink);
-                        Console.WriteLine($"{newLink} : Added to list");
-                    } 
+                        string newLink = link.Attributes["href"].Value;
+                        if (!newLink.StartsWith("#", StringComparison.CurrentCulture)
+                            && !newLink.StartsWith("mailto", StringComparison.CurrentCulture)
+                            && !newLink.Equals("/"))
+                        {
+                            links.Add(newLink);
+                            Console.WriteLine($"{newLink} : Added to list");
+                        }
+                    }
                 }
+            }
+            catch (UriFormatException)
+            {
+                Console.WriteLine("Failed: Invalid URL input");
             }
 
             return links;
