@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace _404CrawlerTests
 {
+    /// <summary>
+    /// Unit tests for Links class, checks that Link objects are properly created and modified
+    /// </summary>
     [TestClass]
     public class LinkTests
     {
