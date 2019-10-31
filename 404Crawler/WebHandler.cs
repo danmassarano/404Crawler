@@ -72,7 +72,7 @@ namespace _404Crawler
             }
             catch (UriFormatException)
             {
-                Console.WriteLine("Failed: Invalid URL input");
+                Console.WriteLine("Failed: Invalid URL input\n");
             }
 
             return links;

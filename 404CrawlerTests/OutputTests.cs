@@ -1,7 +1,6 @@
 ﻿using _404Crawler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace _404CrawlerTests
 {
@@ -97,60 +96,93 @@ namespace _404CrawlerTests
             Assert.AreEqual(expected, result);
         }
 
-        //[TestMethod]
-        //[TestCategory("PrintResults")]
-        //public void PrintResultsWithPopulatedArraysAndNumberTest()
-        //{
-        //    Output output = new Output();
-        //    ArrayList pagesProcessed = new ArrayList
-        //    {
-        //        "https://go.microsoft.com/fwlink/?LinkID=398939",
-        //        "https://go.microsoft.com/fwlink/?LinkID=398600",
-        //        "https://go.microsoft.com/fwlink/?LinkId=699315"
-        //    };
-        //    ArrayList pagesFailed = new ArrayList
-        //    {
-        //        "https://go.microsoft.com/fwlink/?LinkId=699315"
-        //    };
-        //    int numPagesPassed = 2;
-
-        //    string expected = "Total pages processed: 3\n" +
-        //                        "Total pages passed: 2\n" +
-        //                        "Total pages failed: 1\n" +
-        //                        "Pages failed:\n" +
-        //                        "https://go.microsoft.com/fwlink/?LinkId=699315\n";
-
-        //    string result = output.PrintResults(pagesProcessed, pagesFailed, numPagesPassed);
-
-        //    Assert.AreEqual(expected, result);
-        //}
-
         [TestMethod]
         [TestCategory("PrintResults")]
         public void PrintResultsWithEmptyListTest()
         {
-            // TODO: Complete test method
+            Output output = new Output();
+            string expected = "\nThere were no pages to test\n";
+
+            string result = output.PrintResults(new List<Link>());
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         [TestCategory("PrintResults")]
         public void PrintResultsWithNullListTest()
         {
-            // TODO: Complete test method
+            Output output = new Output();
+            string expected = "\nThere were no pages to test\n";
+
+            string result = output.PrintResults(null);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         [TestCategory("PrintResults")]
         public void PrintResultsWithListNoFailuresTest()
         {
-            // TODO: Complete test method
+            Output output = new Output();
+            List<Link> links = new List<Link>
+            {
+                new Link("https://go.microsoft.com/fwlink/?LinkID=398939",
+                            "https://go.microsoft.com/fwlink/?LinkID=398939",
+                            true,
+                            false),
+                new Link("https://go.microsoft.com/fwlink/?LinkID=398600",
+                            "https://go.microsoft.com/fwlink/?LinkID=398600",
+                            true,
+                            false),
+                new Link("https://go.microsoft.com/fwlink/?LinkId=699315",
+                            "https://go.microsoft.com/fwlink/?LinkId=699315",
+                            true,
+                            false)
+            };
+
+            string expected = $"\n" +
+                                $"Total pages tested : 3\n" +
+                                $"Total pages passed : 3\n" +
+                                $"Total pages failed : 0\n" +
+                                $"All pages passed!\n";
+
+            string result = output.PrintResults(links);
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         [TestCategory("PrintResults")]
         public void PrintResultsWithListContainsFailuresTest()
         {
-            // TODO: Complete test method
+            Output output = new Output();
+            List<Link> links = new List<Link>
+            {
+                new Link("https://go.microsoft.com/fwlink/?LinkID=398939",
+                            "https://go.microsoft.com/fwlink/?LinkID=398939",
+                            true,
+                            false),
+                new Link("https://go.microsoft.com/fwlink/?LinkID=398600",
+                            "https://go.microsoft.com/fwlink/?LinkID=398600",
+                            true,
+                            false),
+                new Link("https://go.microsoft.com/fwlink/?LinkId=699315",
+                            "https://go.microsoft.com/fwlink/?LinkId=699315",
+                            false,
+                            false)
+            };
+
+            string expected = $"\n" +
+                                $"Total pages tested : 3\n" +
+                                $"Total pages passed : 2\n" +
+                                $"Total pages failed : 1\n" +
+                                $"Pages failed:\n" +
+                                $"\thttps://go.microsoft.com/fwlink/?LinkId=699315\n";
+
+            string result = output.PrintResults(links);
+
+            Assert.AreEqual(expected, result);
         }
     }
 }

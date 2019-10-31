@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Net;
 using _404Crawler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,6 +13,7 @@ namespace _404CrawlerTests
     [TestClass]
     public class WebHandlerTests
     {
+        private readonly string StartPage = "https://localhost:5001";
 
         //Process cmd;
         // TODO: SETUP/TEARDOWN TEST APP
@@ -47,15 +48,14 @@ namespace _404CrawlerTests
         //    cmd.WaitForExit();
         //}
 
-        //TODO: Extract localhost strings to a local variable so it can easily be changed
         [TestMethod]
         [TestCategory("GetHeader")]
         public void GetHeaderValidURLTest()
         {
-            var handler = new WebHandler();
-            var expected = HttpStatusCode.OK;
+            WebHandler handler = new WebHandler();
+            HttpStatusCode expected = HttpStatusCode.OK;
 
-            var result = handler.GetHeader("https://localhost:5001");
+            HttpStatusCode result = handler.GetHeader(StartPage);
 
             Assert.AreEqual(expected, result);
         }
@@ -64,35 +64,22 @@ namespace _404CrawlerTests
         [TestCategory("GetHeader")]
         public void GetHeaderInvalidURLTest()
         {
-            var handler = new WebHandler();
-            var expected = HttpStatusCode.OK;
+            WebHandler handler = new WebHandler();
+            HttpStatusCode expected = HttpStatusCode.OK;
 
-            var result = handler.GetHeader("https://localhost:5001/fake");
+            HttpStatusCode result = handler.GetHeader(StartPage + "/fake");
 
             Assert.AreNotEqual(expected, result);
-        }
-
-        [TestMethod]
-        [TestCategory("GetHeader")]
-        [ExpectedException(typeof(System.UriFormatException),
-            "Invalid URI: The format of the URI could not be determined.")]
-        public void GetHeaderInvalidFormatTest()
-        {
-            // TODO: move to scrape links 
-            var handler = new WebHandler();
-
-            _ = handler.GetHeader("fake");
         }
 
         [TestMethod]
         [TestCategory("ScrapeLinks")]
         public void ScrapeLinksTest()
         {
-            // TODO: Update test method
-            var handler = new WebHandler();
-            var expected = 4;
+            WebHandler handler = new WebHandler();
+            int expected = 3;
 
-            var result = WebHandler.ScrapeLinks(handler, "https://localhost:5001/Home/About").Count;
+            int result = handler.ScrapeLinks(StartPage + "/Home/About").Count;
 
             Assert.AreEqual(expected, result);
         }

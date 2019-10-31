@@ -1,4 +1,4 @@
-﻿using System;
+﻿using _404Crawler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace _404CrawlerTests
@@ -9,34 +9,18 @@ namespace _404CrawlerTests
     [TestClass]
     public class CrawlerTests
     {
-        // TODO: How am I testing the Crawl() class - should that fall under integration tests?
-
-        [TestMethod]
-        [TestCategory("Constructor")]
-        public void CrawlerTest()
-        {
-            // TODO: Complete test method
-        }
-
-        [TestMethod]
-        [TestCategory("PrintCrawlerHeader")]
-        public void PrintCrawlerHeaderTest()
-        {
-            // TODO: Complete test method
-        }
+        private readonly string StartPage = "https://localhost:5001";
 
         [TestMethod]
         [TestCategory("GetCompleteURL")]
-        public void GetCompleteURLIsInternal()
+        public void GetCompleteURLIsInternalTest()
         {
-            // TODO: Complete test method
-        }
+            Crawler crawler = new Crawler(StartPage);
+            string expected = StartPage + "/Home/About";
 
-        [TestMethod]
-        [TestCategory("GetCompleteURL")]
-        public void GetCompleteURLIsExternal()
-        {
-            // TODO: Complete test method
+            string result = crawler.GetCompleteURL("/Home/About");
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -44,11 +28,10 @@ namespace _404CrawlerTests
         [TestCategory("PageExists")]
         public void PageExistsTrueTest()
         {
-            // TODO: Update test method
-            var handler = new WebHandler();
-            var expected = true;
+            Crawler crawler = new Crawler("https://go.microsoft.com/fwlink/?LinkID=517853");
+            bool expected = true;
 
-            var result = handler.PageExists("https://localhost:5001");
+            bool result = crawler.PageExists("https://go.microsoft.com/fwlink/?LinkID=517853");
 
             Assert.AreEqual(expected, result);
         }
@@ -58,27 +41,12 @@ namespace _404CrawlerTests
         [TestCategory("PageExists")]
         public void PageExistsFalseTest()
         {
-            // TODO: Update test method
-            var handler = new WebHandler();
-            var expected = false;
+            Crawler crawler = new Crawler("example.com");
+            bool expected = false;
 
-            var result = handler.PageExists("https://localhost:5001/fake");
+            bool result = crawler.PageExists("example.com/fake");
 
             Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        [TestCategory("LinkTested")]
-        public void LinkTestedTrueTest()
-        {
-            // TODO: Complete test method
-        }
-
-        [TestMethod]
-        [TestCategory("LinkTested")]
-        public void LinkTestedFalseTest()
-        {
-            // TODO: Complete test method
         }
 
         [TestMethod]
@@ -86,14 +54,11 @@ namespace _404CrawlerTests
         [TestCategory("IsInternalLinkWithDomain")]
         public void IsInternalLinkWithDomainTrueTest()
         {
-            // TODO: Update test method
-            WebHandler handler = new WebHandler();
-            bool expected = true;
             string link = "example.com/about";
+            bool expected = true;
+            Crawler crawler = new Crawler(link);
 
-            handler.StartPage = "example.com";
-
-            bool result = handler.IsInternalLinkWithDomain(link);
+            bool result = crawler.IsInternalLinkWithDomain(link);
 
             Assert.AreEqual(expected, result);
         }
@@ -103,14 +68,12 @@ namespace _404CrawlerTests
         [TestCategory("IsInternalLinkWithDomain")]
         public void IsInternalLinkWithDomainFalseTest()
         {
-            // TODO: Update test method
-            WebHandler handler = new WebHandler();
-            bool expected = false;
+            string page = "example.com";
             string link = "/about";
+            bool expected = false;
+            Crawler crawler = new Crawler(page);
 
-            handler.StartPage = "example.com";
-
-            bool result = handler.IsInternalLinkWithDomain(link);
+            bool result = crawler.IsInternalLinkWithDomain(link);
 
             Assert.AreEqual(expected, result);
         }
@@ -120,14 +83,12 @@ namespace _404CrawlerTests
         [TestCategory("IsInternalLinkWithoutDomain")]
         public void IsInternalLinkWithoutDomainTrueTest()
         {
-            // TODO: Update test method
-            WebHandler handler = new WebHandler();
-            bool expected = true;
+            string page = "example.com";
             string link = "/about";
+            bool expected = true;
+            Crawler crawler = new Crawler(page);
 
-            handler.StartPage = "example.com";
-
-            bool result = handler.IsInternalLinkWithoutDomain(link);
+            bool result = crawler.IsInternalLinkWithoutDomain(link);
 
             Assert.AreEqual(expected, result);
         }
@@ -137,14 +98,11 @@ namespace _404CrawlerTests
         [TestCategory("IsInternalLinkWithoutDomain")]
         public void IsInternalLinkWithoutDomainFalseTest()
         {
-            // TODO: Update test method
-            WebHandler handler = new WebHandler();
-            bool expected = false;
             string link = "https://go.microsoft.com";
+            bool expected = false;
+            Crawler crawler = new Crawler(link);
 
-            handler.StartPage = "example.com";
-
-            bool result = handler.IsInternalLinkWithoutDomain(link);
+            bool result = crawler.IsInternalLinkWithoutDomain(link);
 
             Assert.AreEqual(expected, result);
         }
@@ -154,14 +112,11 @@ namespace _404CrawlerTests
         [TestCategory("IsExternalLink")]
         public void IsExternalLinkTrueTest()
         {
-            // TODO: Update test method
-            WebHandler handler = new WebHandler();
-            bool expected = true;
             string link = "https://go.microsoft.com";
+            bool expected = true;
+            Crawler crawler = new Crawler(StartPage);
 
-            handler.StartPage = "example.com";
-
-            bool result = handler.IsExternalLink(link);
+            bool result = crawler.IsExternalLink(link);
 
             Assert.AreEqual(expected, result);
         }
@@ -171,14 +126,11 @@ namespace _404CrawlerTests
         [TestCategory("IsExternalLink")]
         public void IsExternalLinkFalseTest()
         {
-            // TODO: Update test method
-            WebHandler handler = new WebHandler();
+            string link = StartPage;
             bool expected = false;
-            string link = "/about";
+            Crawler crawler = new Crawler(StartPage);
 
-            handler.StartPage = "example.com";
-
-            bool result = handler.IsExternalLink(link);
+            bool result = crawler.IsExternalLink(link);
 
             Assert.AreEqual(expected, result);
         }
