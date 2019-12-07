@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using HtmlAgilityPack;
+using NLog;
 
 namespace _404Crawler
 {
@@ -10,6 +11,8 @@ namespace _404Crawler
     /// </summary>
     public class WebHandler
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// Checks returned header of a webpage for it's status code. 
         /// Used to see if a webpage is working or not
@@ -28,15 +31,15 @@ namespace _404Crawler
                 if (request.GetResponse() is HttpWebResponse response)
                 {
                     result = response.StatusCode;
+                    Logger.Info($"{url} : {result}");
                     response.Close();
                 }
             }
             catch (Exception)
             {
                 result = HttpStatusCode.NotFound;
+                Logger.Warn($"{url} : {result}");
             }
-
-            Console.WriteLine($"{url} : {result}");
 
             return result;
         }
@@ -65,14 +68,14 @@ namespace _404Crawler
                             && !newLink.Equals("/"))
                         {
                             links.Add(newLink);
-                            Console.WriteLine($"{newLink} : Added to list");
+                            Logger.Info($"{newLink} : Added to list");
                         }
                     }
                 }
             }
             catch (UriFormatException)
             {
-                Console.WriteLine("Failed: Invalid URL input\n");
+                Logger.Error("Failed: Invalid URL input\n");
             }
 
             return links;

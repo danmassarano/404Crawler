@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using NLog;
 
 namespace _404Crawler
 {
@@ -11,6 +12,8 @@ namespace _404Crawler
     /// </summary>
     public class Crawler
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly string startPage;
 
         private List<string> links = new List<string>();
@@ -45,7 +48,7 @@ namespace _404Crawler
             {
                 if (!LinkTested(link))
                 {
-                    Console.WriteLine($"{link} : Testing...");
+                    Logger.Info($"{link} : Testing...");
 
                     System.Threading.Thread.Sleep(200);
 
@@ -56,7 +59,7 @@ namespace _404Crawler
 
                     if (exists && isInternal)
                     {
-                        Console.WriteLine($"{link} : Scraping from page...");
+                        Logger.Info($"{link} : Scraping from page...");
                         Crawl(link);
                     }
                 }
@@ -68,7 +71,7 @@ namespace _404Crawler
         /// </summary>
         private void PrintCrawlerHeader()
         {
-            Console.WriteLine("\n" + output.PrintLogo() + "\n" + output.PrintHeader(startPage));
+            Logger.Info("\n" + output.PrintLogo() + "\n" + output.PrintHeader(startPage));
         }
 
         /// <summary>

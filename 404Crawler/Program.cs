@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 
 namespace _404Crawler
 {
@@ -7,6 +8,8 @@ namespace _404Crawler
     /// </summary>
     public class Program
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// The entry point of the program, where the program control starts and ends.
         ///
@@ -40,19 +43,23 @@ namespace _404Crawler
                 Output output = new Output();
 
                 crawler.Crawl(startPage);
-                Console.WriteLine(output.PrintResults(crawler.GetAllLinksProcessed()));
+                Logger.Info(output.PrintResults(crawler.GetAllLinksProcessed()));
             }
             catch (ArgumentNullException)
             {
-                Console.WriteLine("Failed: No URL input. Try again with a valid link");
+                Logger.Fatal("Failed: No URL input. Try again with a valid link");
             }
             catch (TimeoutException)
             {
-                Console.WriteLine("Could not connect to target site");
+                Logger.Fatal("Could not connect to target site");
             }
             catch (Exception)
             {
-                Console.WriteLine("Something unexpected happened");
+                Logger.Fatal("Something unexpected happened");
+            }
+            finally
+            {
+                LogManager.Shutdown();
             }
         }
     }
