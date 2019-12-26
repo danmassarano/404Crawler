@@ -26,24 +26,32 @@ namespace _404Crawler
         {
             try
             {
+                var arguments = Environment.GetCommandLineArgs();
+
                 string startPage;
+                bool completed = false;
 
-                if (args.Length > 1)
+                for (int i = 0; i < arguments.Length; i++)
                 {
-                    startPage = args[1];
+                    if (arguments[i] == "-h" || arguments[i] == "--help")
+                    {
+                        Console.WriteLine(Help());
+                        Environment.Exit(1);
+                    }
+                    else if (arguments[i] == "-s" || arguments[i] == "--source")
+                    {
+                        startPage = arguments[i + 1];
+                        completed = Run(startPage);
+                    }
                 }
-                else
+
+                if (!completed)
                 {
-                    //startPage = "https://localhost:5001";
-                    Console.Write("Enter URL of site to test: ");
-                    startPage = Console.ReadLine();
+                    Console.WriteLine("Usage: dotnet run 404Crawler.csproj " +
+                                        "[-h || --help] " +
+                                        "|| [-s || --source + <url>");
                 }
-
-                Crawler crawler = new Crawler(startPage);
-                Output output = new Output();
-
-                crawler.Crawl(startPage);
-                Logger.Info(output.PrintResults(crawler.GetAllLinksProcessed()));
+                
             }
             catch (ArgumentNullException)
             {
@@ -61,6 +69,36 @@ namespace _404Crawler
             {
                 LogManager.Shutdown();
             }
+        }
+
+        /// <summary>
+        /// Sets up and calls the crawler. Only called if arguments are valid
+        /// </summary>
+        /// <param name="startPage"></param>
+        /// <returns>True if program completed successfully</returns>
+        private static bool Run(string startPage)
+        {
+            Crawler crawler = new Crawler(startPage);
+            Output output = new Output();
+
+            crawler.Crawl(startPage);
+            Logger.Info(output.PrintResults(crawler.GetAllLinksProcessed()));
+
+            return true;
+        }
+
+        /// <summary>
+        /// Prints out help information about program
+        /// </summary>
+        /// <returns></returns>
+        private static string Help()
+        {
+            return "Crawler that displays how valid links in a website are " +
+                    "\n\n" +
+                    "Usage: dotnet run 404Crawler.csproj " +
+                    "[-h || --help] || [-s || --source + <url>" +
+                    "\n\n" +
+                    "Point the crawler at the homepage of a site and it'll do the rest.";
         }
     }
 }
