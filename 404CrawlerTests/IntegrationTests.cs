@@ -1,6 +1,6 @@
-using System.Collections;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
-using System.Net;
 using _404Crawler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,6 +14,7 @@ namespace _404CrawlerTests
     [TestClass]
     public class IntegrationTests
     {
+        private readonly string StartPage = "https://localhost:5001";
         Process cmd;
 
         /// <summary>
@@ -21,7 +22,6 @@ namespace _404CrawlerTests
         /// to run integration tests against. 
         /// </summary>
         [TestInitialize]
-        [TestCategory("Integration")]
         public void TestInitialize()
         {
             cmd = new Process();
@@ -31,17 +31,14 @@ namespace _404CrawlerTests
             cmd.StartInfo.CreateNoWindow = false;
             cmd.StartInfo.UseShellExecute = false;
             cmd.Start();
-            // TODO: Add commands to kill processes running on needed ports
-            // TODO: Change to extract path here to app.config file so it can be changed for different machines
-            cmd.StandardInput.WriteLine("cd /Users/danielmassarano/Projects/MVCTestApp/MVCTestApp/");
-            cmd.StandardInput.WriteLine("dotnet run MVCTestApp.csproj");
+            cmd.StandardInput.WriteLine(ConfigurationManager.AppSettings["projectPath"]);
+            cmd.StandardInput.WriteLine(ConfigurationManager.AppSettings["projectName"]);
         }
 
         /// <summary>
         /// Tears down testing environment after testing is done. 
         /// </summary>
         [TestCleanup]
-        [TestCategory("Integration")]
         public void TestCleanup()
         {
             cmd.StandardInput.Flush();
@@ -50,50 +47,21 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
-        [TestCategory("Integration")]
-        [TestCategory("Input")]
-        public void CrawlerHasInvalidURLTest()
-        {
-            //TODO fix error handling for this first, maybe just remove exception message
-
-            // Fix error handling, get expected result as string
-            // Add 'expected exception' tag
-            // How do I start the program from here and read console?
-            // Start program, pass nonsense URL
-            // Assert output is correct
-        }
-
-        [TestMethod]
-        [TestCategory("Integration")]
-        [TestCategory("Input")]
-        public void CrawlerHasNullURLTest()
-        {
-            // get expected result as string
-            // Add 'expected exception' tag
-            // Start program, pass null URL
-            // Assert output is correct
-        }
-
-        [TestMethod]
-        [TestCategory("Integration")]
-        [TestCategory("Crawler")]
-        public void TimeoutIsCaughtByException()
-        {
-            // How can I force a timeout?
-            // get expected result as string
-            // Add 'expected exception' tag
-            // Start program, pass localhost URL
-            // Assert output is correct
-        }
-
-        [TestMethod]
-        [TestCategory("Integration")]
+        [TestCategory("Online")]
         [TestCategory("Crawler")]
         public void CrawlerHasPagesAndResultsTest()
         {
-            // get expected result as number of pages processed, passed and failed
-            // Start program, pass localhost URL
-            // Assert output is correct
+            Crawler crawler = new Crawler(StartPage);
+            Output output = new Output();
+
+            int expectedProcessed = 22;
+            int expectedPassed = 13;
+
+            crawler.Crawl(StartPage);
+            List<Link> results = crawler.GetAllLinksProcessed();
+
+            Assert.AreEqual(expectedProcessed, results.Count);
+            Assert.AreEqual(expectedPassed, results.FindAll(l => l.Passed == true).Count);
         }
     }
 }

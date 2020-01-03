@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Configuration;
+using System.Diagnostics;
 using System.Net;
 using _404Crawler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,41 +15,39 @@ namespace _404CrawlerTests
     public class WebHandlerTests
     {
         private readonly string StartPage = "https://localhost:5001";
+        Process cmd;
 
-        //Process cmd;
-        // TODO: SETUP/TEARDOWN TEST APP
-        ///// <summary>
-        ///// Sets up environment for testing. A local webpage needs to booted up
-        ///// to run integration tests against. 
-        ///// </summary>
-        //[TestInitialize]
-        //public void TestInitialize()
-        //{
-        //    cmd = new Process();
-        //    cmd.StartInfo.FileName = "/bin/bash";
-        //    cmd.StartInfo.RedirectStandardInput = true;
-        //    cmd.StartInfo.RedirectStandardOutput = true;
-        //    cmd.StartInfo.CreateNoWindow = false;
-        //    cmd.StartInfo.UseShellExecute = false;
-        //    cmd.Start();
-        //    // TODO: Add commands to kill processes running on needed ports
-        //    // TODO: Change to extract path here to app.config file so it can be changed for different machines
-        //    cmd.StandardInput.WriteLine("cd /Users/danielmassarano/Projects/MVCTestApp/MVCTestApp/");
-        //    cmd.StandardInput.WriteLine("dotnet run MVCTestApp.csproj");
-        //}
+        /// <summary>
+        /// Sets up environment for testing. A local webpage needs to booted up
+        /// to run integration tests against. 
+        /// </summary>
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            cmd = new Process();
+            cmd.StartInfo.FileName = "/bin/bash";
+            cmd.StartInfo.RedirectStandardInput = true;
+            cmd.StartInfo.RedirectStandardOutput = true;
+            cmd.StartInfo.CreateNoWindow = false;
+            cmd.StartInfo.UseShellExecute = false;
+            cmd.Start();
+            cmd.StandardInput.WriteLine(ConfigurationManager.AppSettings["projectPath"]);
+            cmd.StandardInput.WriteLine(ConfigurationManager.AppSettings["projectName"]);
+        }
 
-        ///// <summary>
-        ///// Tears down testing environment after testing is done. 
-        ///// </summary>
-        //[TestCleanup]
-        //public void TestCleanup()
-        //{
-        //    cmd.StandardInput.Flush();
-        //    cmd.StandardInput.Close();
-        //    cmd.WaitForExit();
-        //}
+        /// <summary>
+        /// Tears down testing environment after testing is done. 
+        /// </summary>
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            cmd.StandardInput.Flush();
+            cmd.StandardInput.Close();
+            cmd.WaitForExit();
+        }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("GetHeader")]
         public void GetHeaderValidURLTest()
         {
@@ -61,6 +60,7 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("GetHeader")]
         public void GetHeaderInvalidURLTest()
         {
@@ -73,6 +73,7 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("ScrapeLinks")]
         public void ScrapeLinksTest()
         {

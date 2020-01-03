@@ -33,7 +33,7 @@ namespace _404Crawler
 
                 for (int i = 0; i < arguments.Length; i++)
                 {
-                    if (arguments[i] == "-h" || arguments[i] == "--help")
+                    if (arguments[i] == "-i" || arguments[i] == "--instructions")
                     {
                         Console.WriteLine(Help());
                         Environment.Exit(1);
@@ -48,8 +48,8 @@ namespace _404Crawler
                 if (!completed)
                 {
                     Console.WriteLine("Usage: dotnet run 404Crawler.csproj " +
-                                        "[-h || --help] " +
-                                        "|| [-s || --source + <url>");
+                                        "[-i || --instructions] " +
+                                        "|| [-s || --source <url>]");
                 }
                 
             }
@@ -96,7 +96,7 @@ namespace _404Crawler
             return "Crawler that displays how valid links in a website are " +
                     "\n\n" +
                     "Usage: dotnet run 404Crawler.csproj " +
-                    "[-h || --help] || [-s || --source + <url>" +
+                    "[-i || --instructions] || [-s || --source <url>]" +
                     "\n\n" +
                     "Point the crawler at the homepage of a site and it'll do the rest.";
         }
