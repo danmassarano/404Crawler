@@ -9,14 +9,6 @@ namespace _404Crawler
     public class Startup
     {
         /// <summary>
-        /// Configures the services.
-        /// </summary>
-        /// <param name="services">Services</param>
-        //public void ConfigureServices(IServiceCollection services)
-        //{
-        //}
-
-        /// <summary>
         /// Configure the specified app and env.
         /// </summary>
         /// <param name="app">App</param>
@@ -27,10 +19,6 @@ namespace _404Crawler
             {
                 app.UseDeveloperExceptionPage();
             }
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
     }
 }
