@@ -5,6 +5,7 @@
     <RootNamespace>_404CrawlerTests</RootNamespace>
 
     <IsPackable>false</IsPackable>
+    <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
