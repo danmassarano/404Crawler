@@ -13,9 +13,10 @@ namespace _404CrawlerTests
         [TestCategory("Link")]
         public void LinkCreatedCorrectly()
         {
-            Link link = new Link("example.com", "http://example.com", true, false);
+            Link link = new Link("example.com", "https://example.com", true, false, true);
 
             Assert.AreEqual("example.com", link.Name);
+            Assert.IsTrue(link.SSLIsValid);
         }
     }
 }

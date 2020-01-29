@@ -102,15 +102,18 @@ namespace _404Crawler
             int processed = links.Count;
             int passed = links.FindAll(l => l.Passed == true).Count;
             int failed = processed - passed;
+            int http = links.FindAll(l => l.UsesHTTPS == false).Count;
+            int failedSSL = links.FindAll(l => l.SSLIsValid == false).Count;
 
             string result = $"\n" +
                             $"Total pages tested : {processed}\n" +
                             $"Total pages passed : {passed}\n" +
-                            $"Total pages failed : {failed}\n";
+                            $"Total pages failed : {failed}\n" +
+                            $"Total pages using insecure connection : {http + failedSSL}\n";
 
             if (failed > 0)
             {
-                result += "Pages failed:\n";
+                result += "Links with broken connection:\n";
 
                 foreach (var link in links.FindAll(l => l.Passed == false))
                 {
@@ -119,7 +122,21 @@ namespace _404Crawler
             }
             else
             {
-                result += "All pages passed!\n";
+                result += "All links good\n";
+            }
+
+            if (http > 0 || failedSSL > 0)
+            {
+                result += "Links using insecure connection:\n";
+
+                foreach (var link in links.FindAll(l => l.UsesHTTPS == false))
+                {
+                    result += $"\t{link.URL} : Does not use HTTPS\n";
+                }
+                foreach (var link in links.FindAll(l => l.SSLIsValid == false))
+                {
+                    result += $"\t{link.URL} : SSL Certificate is invalid\n";
+                }
             }
 
             return result;

@@ -54,8 +54,9 @@ namespace _404Crawler
 
                     bool exists = PageExists(link);
                     bool isInternal = LinkIsInternal(link);
+                    bool usesHTTPS = UsesHTTPS(link);
 
-                    allLinks.Add(new Link(pageToCrawl, link, exists, isInternal));
+                    allLinks.Add(new Link(pageToCrawl, link, exists, isInternal, usesHTTPS));
 
                     if (exists && isInternal)
                     {
@@ -98,6 +99,16 @@ namespace _404Crawler
             }
 
             return url;
+        }
+
+        /// <summary>
+        /// Verifies that link called attempts an HTTPS connection
+        /// </summary>
+        /// <param name="link">URL of web page to check</param>
+        /// <returns>True if URL is using HTTPS</returns>
+        public bool UsesHTTPS(string link)
+        {
+            return link.StartsWith("https", StringComparison.CurrentCulture);
         }
 
         /// <summary>

@@ -25,9 +25,9 @@ namespace _404Crawler
 
             try
             {
-                var request = WebRequest.Create(url);
+                WebRequest request = WebRequest.Create(url);
                 request.Method = "HEAD";
-
+                //using response = request
                 if (request.GetResponse() is HttpWebResponse response)
                 {
                     result = response.StatusCode;

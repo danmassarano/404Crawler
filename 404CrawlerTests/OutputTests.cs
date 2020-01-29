@@ -121,31 +121,28 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("PrintResults")]
         public void PrintResultsWithListNoFailuresTest()
         {
             Output output = new Output();
             List<Link> links = new List<Link>
             {
-                new Link("https://go.microsoft.com/fwlink/?LinkID=398939",
-                            "https://go.microsoft.com/fwlink/?LinkID=398939",
+                new Link("https://www.example.com/",
+                            "https://www.example.com/",
                             true,
-                            false),
-                new Link("https://go.microsoft.com/fwlink/?LinkID=398600",
-                            "https://go.microsoft.com/fwlink/?LinkID=398600",
                             true,
-                            false),
-                new Link("https://go.microsoft.com/fwlink/?LinkId=699315",
-                            "https://go.microsoft.com/fwlink/?LinkId=699315",
-                            true,
-                            false)
+                            true)
             };
 
             string expected = $"\n" +
-                                $"Total pages tested : 3\n" +
-                                $"Total pages passed : 3\n" +
+                                $"Total pages tested : 1\n" +
+                                $"Total pages passed : 1\n" +
                                 $"Total pages failed : 0\n" +
-                                $"All pages passed!\n";
+                                $"Total pages using insecure connection : 1\n" +
+                                $"All links good\n" +
+                                $"Links using insecure connection:\n" +
+                                $"\thttps://www.example.com/ : SSL Certificate is invalid\n";
 
             string result = output.PrintResults(links);
 
@@ -153,32 +150,29 @@ namespace _404CrawlerTests
         }
 
         [TestMethod]
+        [TestCategory("Online")]
         [TestCategory("PrintResults")]
         public void PrintResultsWithListContainsFailuresTest()
         {
             Output output = new Output();
             List<Link> links = new List<Link>
             {
-                new Link("https://go.microsoft.com/fwlink/?LinkID=398939",
-                            "https://go.microsoft.com/fwlink/?LinkID=398939",
-                            true,
-                            false),
-                new Link("https://go.microsoft.com/fwlink/?LinkID=398600",
-                            "https://go.microsoft.com/fwlink/?LinkID=398600",
-                            true,
-                            false),
-                new Link("https://go.microsoft.com/fwlink/?LinkId=699315",
-                            "https://go.microsoft.com/fwlink/?LinkId=699315",
+                new Link("https://www.example.com/",
+                            "https://www.example.com/",
                             false,
-                            false)
+                            true,
+                            true)
             };
 
             string expected = $"\n" +
-                                $"Total pages tested : 3\n" +
-                                $"Total pages passed : 2\n" +
+                                $"Total pages tested : 1\n" +
+                                $"Total pages passed : 0\n" +
                                 $"Total pages failed : 1\n" +
-                                $"Pages failed:\n" +
-                                $"\thttps://go.microsoft.com/fwlink/?LinkId=699315\n";
+                                $"Total pages using insecure connection : 1\n" +
+                                $"Links with broken connection:\n" +
+                                $"\thttps://www.example.com/\n" +
+                                $"Links using insecure connection:\n" +
+                                $"\thttps://www.example.com/ : SSL Certificate is invalid\n";
 
             string result = output.PrintResults(links);
 
