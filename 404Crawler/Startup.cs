@@ -8,17 +8,5 @@ namespace _404Crawler
     /// </summary>
     public class Startup
     {
-        /// <summary>
-        /// Configure the specified app and env.
-        /// </summary>
-        /// <param name="app">App</param>
-        /// <param name="env">Env</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-        }
     }
 }

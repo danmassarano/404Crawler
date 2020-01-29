@@ -10,12 +10,21 @@ This crawler works by parsing the HTML content of a page, so will not be able to
 Either build a release version in the usual way, or run a debug version from the directory where the .csproj file is located. The app will need the URL of the site to point to, this can be input as an argument or the app can just be run and it will prompt for a link in the terminal.
 
 ``` powershell
-dotnet run 404Crawler.csproj
+dotnet run 404Crawler.csproj [-s || --source <url>]
 ```
-or
+
+eg
+
 ``` powershell
-dotnet run 404Crawler.csproj <site>
-``` 
+dotnet run 404Crawler.csproj -s https://example.com
+```
+
+You can also get a man page by running
+
+``` powershell
+dotnet run 404Crawler.csproj -i
+```
+
 ### Testing
 
 Basic unit tests are in place, but the WebHandler class requires a test MVC app to be running (I haven't figured out how to mock some of the web requests yet). Either download and run the TestMVC app, or build a stock one from the command line:
@@ -39,11 +48,6 @@ kill -9 <ID of process>
 ### Extensions
 This is a work in progress and has a lot to go, here's a non exhaustive list:
 
-* Improving how invalid links are handled
-* Logging and better console formatting
-* More flexible and reliable tests
-* Making sure it's compliant with robots protocol
 * Handling dynamically generated pages
-* Testing that links are using https
 * Performance improvements & testing
 * Multithreading

@@ -17,11 +17,8 @@ namespace _404Crawler
         /// kill -9 -> results
         /// dotnet run MVCTestApp.csproj
         /// 
-        /// Now listening on: https://localhost:5001 
-        /// Now listening on: http://localhost:5000
-        /// 
         /// </summary>
-        /// <param name="args">The command line arguments.</param>
+        /// <param name="args">The command line arguments</param>
         public static void Main(string[] args)
         {
             try

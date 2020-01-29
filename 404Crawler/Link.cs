@@ -61,7 +61,7 @@ namespace _404Crawler
                 return true;
             }
 
-            Logger.Info("Certificate ERROR");
+            Logger.Warn($"Certificate ERROR : {URL}");
             return false;
         }
     }
