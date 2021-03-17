@@ -44,10 +44,3 @@ kill -9 <ID of process>
 lsof -i :5000
 kill -9 <ID of process>
 ```
-
-### Extensions
-This is a work in progress and has a lot to go, here's a non exhaustive list:
-
-* Handling dynamically generated pages
-* Performance improvements & testing
-* Multithreading
